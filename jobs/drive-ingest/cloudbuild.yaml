@@ -1,0 +1,16 @@
+# Builds the drive-ingest Job image remotely (the local disk is chronically full,
+# and Cloud Build is where the web service is built too).
+#   gcloud builds submit --config jobs/drive-ingest/cloudbuild.yaml .
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - jobs/drive-ingest/Dockerfile
+      - -t
+      - us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/drive-ingest:latest
+      - .
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/drive-ingest:latest
+options:
+  machineType: E2_HIGHCPU_8

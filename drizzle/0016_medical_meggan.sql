@@ -1,0 +1,1 @@
+ALTER TABLE "news_item" ADD COLUMN "edition" text DEFAULT '' NOT NULL;

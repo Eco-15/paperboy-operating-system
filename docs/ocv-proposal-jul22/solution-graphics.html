@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paperboy Ventures — Nine Systems, Drawn · Ocean Crest Ventures</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=UnifrakturCook:wght@700&display=swap">
+<style>
+/* ============================================================
+   LAYER 1 — OCEAN CREST VENTURES (the consultant's frame)
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:#fafafa;color:#18181b;
+  font-family:'Geist',system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-size:15px;line-height:1.5;
+}
+.board{max-width:1180px;margin:0 auto;padding:64px 48px 56px}
+
+.board-head{padding-bottom:36px}
+.eyebrow{font-family:'Geist Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.2em;color:#0e7490}
+.board-title{margin-top:16px;font-size:48px;font-weight:700;letter-spacing:-.026em;line-height:1.06;color:#18181b}
+.board-sub{margin-top:14px;font-size:14px;color:#71717a}
+.board-sub b{font-weight:500;color:#52525b}
+.thesis{margin-top:20px;font-size:15.5px;color:#3f3f46;max-width:64ch;border-left:2px solid #0e7490;padding-left:14px}
+
+/* ---------- sticky category bar ---------- */
+.tabbar{position:sticky;top:0;z-index:60;display:flex;gap:32px;background:rgba(250,250,250,.88);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid #e4e4e7}
+.tab{appearance:none;background:none;border:none;cursor:pointer;text-transform:uppercase;
+  font-family:'Geist Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.15em;color:#71717a;
+  padding:15px 0 13px;margin-bottom:-1px;border-bottom:2px solid transparent;transition:color .15s ease}
+.tab .ct{color:#a1a1aa;font-weight:500;margin-left:6px}
+.tab:hover{color:#52525b}
+.tab.active{color:#0e7490;border-bottom-color:#0e7490}
+.tab.active .ct{color:#0e7490;opacity:.6}
+.tab.active:hover{color:#0e7490}
+
+/* ---------- 2-up card grid ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-top:32px;scroll-margin-top:58px}
+.sec{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid #e4e4e7;border-radius:12px;
+  padding:20px 22px 22px;scroll-margin-top:58px;cursor:zoom-in;transition:border-color .15s ease}
+.sec:hover{border-color:#d4d4d8}
+.sec.span2{grid-column:1 / -1}
+.sec.expanded{grid-column:1 / -1;cursor:zoom-out}
+/* frame scaling: half cards render the ~1084px frames at .45; the phone card needs less shrink;
+   spanning card ~full size; focused card ~.9 */
+.grid .frame-wrap{zoom:.45}
+.grid #s05:not(.expanded):not(.span2) .frame-wrap{zoom:.8}
+.sec.span2 .frame-wrap{zoom:.96}
+.sec.expanded .frame-wrap{zoom:.9}
+.sec.span2.expanded .frame-wrap{zoom:.96}
+.grid .cap{margin-top:auto;padding-top:16px}
+.xbtn{display:none;position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;
+  border:1px solid #e4e4e7;background:#fff;color:#52525b;font-family:'Geist',system-ui,sans-serif;
+  font-size:13px;line-height:1;cursor:pointer;z-index:5;align-items:center;justify-content:center}
+.xbtn:hover{color:#18181b;border-color:#d4d4d8}
+.sec.expanded .xbtn{display:flex}
+.sec.expanded .cat-tag{margin-right:40px}
+.sec-head{display:grid;grid-template-columns:34px 1fr auto;gap:0 8px;align-items:baseline}
+.sec-hgroup{min-width:0}
+.idx{font-family:'Geist Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.08em;color:#0e7490}
+.sec-name{font-size:21px;font-weight:650;letter-spacing:-.012em;color:#18181b}
+.sec-sum{margin-top:8px;font-size:14px;color:#52525b;max-width:82ch}
+.cat-tag{font-family:'Geist Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.18em;color:#a1a1aa;white-space:nowrap}
+.arr{color:#f79a09;font-weight:600;padding:0 3px}
+.frame-wrap{margin-top:28px}
+.cap{margin-top:16px;margin-left:42px;font-size:13px;color:#71717a}
+.fig{font-family:'Geist Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;color:#a1a1aa;margin-right:10px}
+
+.board-foot{border-top:1px solid #e4e4e7;margin-top:40px;padding-top:26px;text-align:center}
+.board-foot span{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#a1a1aa;text-transform:uppercase}
+
+/* ---------- browser chrome (mockup frame) ---------- */
+.browser{border:1px solid #e4e4e7;border-radius:12px;overflow:hidden;background:#fff;
+  box-shadow:0 1px 2px rgba(24,24,27,.05),0 12px 32px -12px rgba(24,24,27,.10)}
+.bbar{display:flex;align-items:center;padding:10px 16px;background:#fbfbfa;border-bottom:1px solid #ececee}
+.dots{display:flex;gap:6px;width:60px;flex:none}
+.dots i{width:10px;height:10px;border-radius:50%;display:block}
+.dots i:nth-child(1){background:#ff5f57}.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+.url{flex:1;max-width:480px;margin:0 auto;background:#f1f1f0;border-radius:7px;padding:5px 14px;
+  font-family:'Geist Mono',monospace;font-size:11.5px;color:#52525b;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.url span{color:#a1a1aa}
+.bsp{width:60px;flex:none}
+
+/* ============================================================
+   LAYER 2a — PAPERBOY OS / COMMAND CENTER (client idiom, internal)
+   ============================================================ */
+.os{background:#f7f5f2;color:#1a1713;font-family:'DM Sans',sans-serif;padding:26px 28px 28px}
+.os .meta{font-size:10.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#5b6472}
+.os .meta.bronze{color:#8a6a3f}
+.panel{background:#fff;border:1px solid hsl(40,12%,88%);border-radius:10px;box-shadow:0 1px 2px rgba(26,23,19,.04)}
+.mono{font-family:'Geist Mono',monospace}
+.chip{display:inline-flex;align-items:center;padding:2.5px 10px;border:1px solid hsl(40,12%,85%);border-radius:999px;
+  background:#fff;font-size:11.5px;font-weight:600;color:#4b453c;white-space:nowrap}
+.chip.bronze{color:#8a6a3f;border-color:#dccbab;background:#faf6ee}
+.chip.solid{background:#8a6a3f;border-color:#8a6a3f;color:#fff;letter-spacing:.06em}
+.btn{display:inline-block;background:#8a6a3f;color:#fff;font-family:'DM Sans',sans-serif;
+  font-size:13.5px;font-weight:600;padding:9px 18px;border-radius:8px;white-space:nowrap}
+.btn.quiet{background:transparent;color:#5b6472;border:1px solid hsl(40,12%,82%)}
+.btn.dark{background:#1a1713;color:#f4efe1}
+.oshead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
+.oshead h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin-top:5px}
+.oshead .sub{font-size:12.5px;color:#5b6472;margin-top:3px}
+.up{color:#8a6a3f;font-weight:700}
+.down{color:#5b6472;font-weight:700}
+
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#5b6472;
+  padding:9px 12px;border-bottom:1px solid hsl(40,12%,86%)}
+.tbl td{padding:10px 12px;border-bottom:1px solid hsl(40,14%,92%);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .co{font-weight:700}
+.tbl .num{font-family:'Geist Mono',monospace;font-size:12px;color:#2c261e}
+
+/* ============================================================
+   LAYER 2b — BROADSHEET (client idiom, reader-facing)
+   ============================================================ */
+.news{background:#f4efe1;color:#191511;font-family:'Playfair Display',Georgia,serif}
+.frak{font-family:'UnifrakturCook',cursive;font-weight:700}
+.nlabel{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:#191511}
+.nrule{border:none;border-top:1px solid #d5cbb2}
+.ndouble{border-top:2.5px solid #191511;position:relative;margin-top:0}
+.ndouble::after{content:"";display:block;border-top:1px solid #191511;margin-top:2px}
+
+/* ---------- s01 · Co-Invest Room ---------- */
+.coinvest{padding:46px 56px 40px}
+.ci-inner{max-width:720px;margin:0 auto;text-align:center}
+.ci-eyebrow{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:800;letter-spacing:.22em;color:#8a6a3f}
+.ci-h{font-size:35px;font-weight:700;letter-spacing:-.01em;margin-top:14px;line-height:1.15}
+.ci-meta{font-family:'DM Sans',sans-serif;font-size:12.5px;color:#4b453c;margin-top:12px}
+.ci-meta b{font-weight:700;color:#191511}
+.ci-block{margin-top:28px;text-align:left;border-top:1px solid #d5cbb2;padding-top:20px}
+.ci-block .nlabel{color:#8a6a3f}
+.ci-memo p{font-size:14.5px;line-height:1.62;margin-top:10px}
+.ci-memo p b{font-weight:700}
+.ci-file{display:flex;align-items:baseline;gap:12px;padding:9px 2px;border-bottom:1px solid #e3dbc6;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600}
+.ci-file:last-child{border-bottom:none}
+.ci-file .lead{flex:1;border-bottom:1px dotted #c4b995;transform:translateY(-4px)}
+.ci-file .sz{font-family:'Geist Mono',monospace;font-size:11px;font-weight:400;color:#6b6353}
+.ci-terms{display:flex;justify-content:space-between;gap:14px;border-top:1px solid #191511;border-bottom:1px solid #191511;
+  padding:14px 6px;margin-top:28px;text-align:center;flex-wrap:wrap}
+.ci-term .nlabel{font-size:9px;color:#6b6353}
+.ci-term .val{font-family:'Geist Mono',monospace;font-size:14px;font-weight:600;margin-top:5px;color:#191511}
+.ci-actions{margin-top:30px;display:flex;justify-content:center;gap:14px}
+.ci-actions .btn{font-size:14px;padding:11px 24px}
+.ci-foot{margin-top:24px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.06em;color:#6b6353}
+
+/* ---------- s02 · Extractor ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pad{padding:18px 20px}
+.msg-from{display:flex;justify-content:space-between;align-items:center;margin:12px 0 10px;
+  font-size:12.5px;color:#4b453c}
+.msg-from b{font-weight:700;color:#1a1713}
+.msg-body{font-size:13.5px;line-height:1.7;color:#3d372e}
+.msg-body mark{background:transparent;color:inherit;border-bottom:1.5px dotted #b45309;padding-bottom:1px}
+.xrow{display:flex;align-items:baseline;gap:10px;padding:8.5px 0;border-bottom:1px solid hsl(40,14%,92%)}
+.xrow:last-of-type{border-bottom:none}
+.xrow .xl{width:118px;flex:none;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5b6472}
+.xrow .xv{flex:1;font-size:13.5px;font-weight:600}
+.xrow .tick{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.08em;color:#8a6a3f;white-space:nowrap}
+.progbar-row{display:flex;align-items:center;gap:16px;margin-top:18px;padding:13px 18px}
+.progbar-row .ptext{font-family:'Geist Mono',monospace;font-size:11.5px;color:#4b453c;white-space:nowrap}
+.progbar-row .ptext b{font-weight:600;color:#8a6a3f}
+.prog{flex:1;height:6px;background:hsl(40,12%,88%);border-radius:999px;overflow:hidden}
+.prog i{display:block;height:100%;width:82%;background:#8a6a3f;border-radius:999px}
+
+/* ---------- s03 · Memo Desk ---------- */
+.memo-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px;align-items:start}
+.memo-doc{padding:26px 30px 6px}
+.memo-title{font-size:15px;font-weight:700;letter-spacing:.01em;padding-bottom:14px;border-bottom:1px solid hsl(40,12%,88%)}
+.memo-sec{font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#8a6a3f;margin:20px 0 10px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:4px 16px;font-size:13px}
+.kv dt{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5b6472;padding-top:2px}
+.kv dd{font-weight:600}
+.fin{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+.fin th{text-align:right;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5b6472;
+  padding:6px 10px;border-bottom:1px solid hsl(40,12%,86%)}
+.fin th:first-child,.fin td:first-child{text-align:left}
+.fin td{text-align:right;padding:6px 10px;font-family:'Geist Mono',monospace;font-size:11.5px;border-bottom:1px solid hsl(40,14%,93%)}
+.fin td:first-child{font-family:'DM Sans',sans-serif;font-weight:700;font-size:12.5px}
+.ter{margin-top:10px;font-family:'Geist Mono',monospace;font-size:11.5px;color:#2c261e}
+.ter b{color:#8a6a3f;font-weight:600}
+.hl{font-size:13px;line-height:1.6;margin-top:6px}
+.hl b{font-weight:700}
+.hl .faint{color:#a49b8c}
+.risk-blunt{font-size:13px;line-height:1.6;font-weight:600}
+.risk-blunt em{font-style:normal;color:#b45309}
+.fadeout{font-size:13px;color:#5b6472;margin-top:6px;padding-bottom:22px;
+  -webkit-mask-image:linear-gradient(#000 0%,transparent 92%);mask-image:linear-gradient(#000 0%,transparent 92%)}
+.memo-side .panel{padding:16px 18px;margin-bottom:12px}
+.memo-side .sv{font-size:13.5px;font-weight:700;margin-top:5px}
+.memo-side .sd{font-size:12px;color:#5b6472;margin-top:2px}
+
+/* ---------- s04 · Episode Engine ---------- */
+.flow{display:grid;grid-template-columns:1fr 30px 1.22fr 30px 1.18fr;gap:10px;align-items:stretch}
+.flowarr{display:flex;align-items:center;justify-content:center;color:#8a6a3f;font-size:21px;font-weight:600}
+.step{padding:16px 18px;display:flex;flex-direction:column}
+.step .meta{margin-bottom:12px}
+.deal-name{font-size:17px;font-weight:700}
+.chiprow{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.deal-line{font-size:12.5px;color:#5b6472;margin-top:11px}
+.deal-line b{color:#1a1713;font-weight:700}
+.brief-title{font-size:15px;font-weight:700}
+.brow{margin-top:11px}
+.brow .bl{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8a6a3f}
+.brow .bv{font-size:12.5px;line-height:1.5;margin-top:2px;color:#2c261e}
+.mini-news{background:#f4efe1;border:1px solid #e0d8c2;border-radius:6px;padding:16px 18px 14px;margin-top:2px;
+  font-family:'Playfair Display',Georgia,serif;color:#191511;flex:1}
+.mini-mast{display:flex;align-items:baseline;justify-content:center;gap:8px;padding-bottom:8px}
+.mini-mast .frak{font-size:15px}
+.mini-mast .nlabel{font-size:9px;letter-spacing:.3em}
+.mini-h{font-size:18.5px;font-weight:700;line-height:1.22;margin-top:12px}
+.mini-dek{font-size:12px;font-style:italic;line-height:1.5;margin-top:8px;color:#40382c}
+.mini-cta{font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:800;letter-spacing:.18em;margin-top:12px;color:#8a6a3f}
+
+/* ---------- s05 · Morning Route (phone) ---------- */
+.phone-wrap{display:flex;justify-content:center}
+.phone{width:392px;background:#1b1712;border-radius:52px;padding:11px;
+  box-shadow:0 2px 4px rgba(24,24,27,.08),0 24px 48px -16px rgba(24,24,27,.22)}
+.phone-screen{background:#f4efe1;border-radius:42px;overflow:hidden;position:relative;padding:16px 22px 20px}
+.notch{width:112px;height:24px;background:#1b1712;border-radius:999px;margin:0 auto 14px}
+.mr-mast{text-align:center}
+.mr-mast .frak{font-size:21px}
+.mr-title{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:800;letter-spacing:.32em;text-transform:uppercase;margin-top:4px}
+.mr-date{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#6b6353;margin:8px 0 10px}
+.mr-sec{margin-top:15px}
+.mr-sechead{display:flex;align-items:center;gap:10px}
+.mr-sechead .nlabel{font-size:9px;white-space:nowrap}
+.mr-sechead .nrule{flex:1}
+.mr-headline{font-size:15px;font-weight:700;line-height:1.32;padding:9px 0;border-bottom:1px solid #e3dbc6}
+.mr-headline:last-child{border-bottom:none}
+.mr-desk{display:flex;gap:9px;align-items:baseline;padding:7.5px 0;border-bottom:1px solid #e3dbc6;
+  font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;color:#26211a}
+.mr-desk:last-child{border-bottom:none}
+.mr-desk i{width:6px;height:6px;border-radius:50%;background:#8a6a3f;flex:none;transform:translateY(-1px)}
+.mr-pipe{font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;padding-top:9px;color:#26211a}
+.mr-pipe b{font-weight:700}
+.mr-foot{text-align:center;font-family:'DM Sans',sans-serif;font-size:8.5px;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:#a49478;margin-top:18px}
+
+/* ---------- s06 · Portfolio & LP Desk ---------- */
+.port-grid{display:grid;grid-template-columns:1.52fr 1fr;gap:18px;align-items:start}
+.spark{display:block}
+.letter{padding:18px 20px}
+.letter-body{font-size:13.5px;line-height:1.66;color:#2c261e;margin-top:10px}
+.letter-note{font-size:11.5px;color:#5b6472;margin-top:12px;padding-top:10px;border-top:1px solid hsl(40,14%,92%)}
+
+/* ---------- s07 · Graph ---------- */
+.graph-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:18px;align-items:stretch}
+.graph-panel{padding:10px 12px}
+.qcard{padding:16px 18px}
+.qprompt{font-family:'Geist Mono',monospace;font-size:13px;color:#1a1713;margin-top:9px}
+.qprompt .cursor{display:inline-block;width:7px;height:14px;background:#8a6a3f;vertical-align:-2px;margin-left:2px}
+.qpath{border-left:2.5px solid #8a6a3f;padding:2px 0 2px 12px;margin-top:12px}
+.qpath .qn{font-size:13.5px;font-weight:700}
+.qpath .qd{font-size:12px;color:#5b6472;line-height:1.5;margin-top:2px}
+.statstrip{display:flex;align-items:center;gap:28px;margin-top:18px;padding:14px 20px;flex-wrap:wrap}
+.stat .sn{font-family:'Geist Mono',monospace;font-size:17px;font-weight:600;color:#8a6a3f}
+.stat .sl{font-size:9.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#5b6472;margin-top:1px}
+.statnote{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#5b6472}
+
+/* ---------- s08 · Advisor Bench ---------- */
+.bench{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.adv{padding:18px 20px;display:flex;flex-direction:column}
+.adv-name{font-size:15.5px;font-weight:700}
+.adv-role{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5b6472;margin-top:3px}
+.adv .chiprow{margin-top:12px}
+.adv-div{border:none;border-top:1px solid hsl(40,14%,92%);margin:14px 0 12px}
+.match-label{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;color:#5b6472}
+.match-to{font-size:13px;font-weight:700;margin-top:4px}
+.match-to span{color:#8a6a3f}
+.mdots{display:flex;gap:4px;margin-top:8px;align-items:center}
+.mdots i{width:6.5px;height:6.5px;border-radius:50%;background:#8a6a3f;display:block}
+.mdots i.off{background:hsl(40,12%,84%)}
+.mdots .ml{font-family:'Geist Mono',monospace;font-size:9px;color:#8a6a3f;margin-left:6px;letter-spacing:.08em}
+
+/* ---------- s09 · Paperboy Index ---------- */
+.sheet{background:#f4efe1;border:1px solid #e0d8c2;border-radius:4px;padding:40px 52px 34px;color:#191511;
+  font-family:'Playfair Display',Georgia,serif;box-shadow:0 1px 2px rgba(24,24,27,.05),0 12px 32px -12px rgba(24,24,27,.10)}
+.idx-mast{text-align:center}
+.idx-mast .frak{font-size:17px}
+.idx-title{font-size:34px;font-weight:800;letter-spacing:.015em;margin-top:8px}
+.idx-sub{font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#40382c;margin:12px 0 16px}
+.idx-cols{display:grid;grid-template-columns:1fr 1fr 1fr;margin-top:26px}
+.idx-col{padding:0 26px}
+.idx-col:first-child{padding-left:4px}
+.idx-col:last-child{padding-right:4px}
+.idx-col + .idx-col{border-left:1px solid #d5cbb2}
+.chart-t{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.chart-n{font-family:'Geist Mono',monospace;font-size:8.5px;color:#8b8168;margin-top:10px;letter-spacing:.04em}
+.hbar-row{display:grid;grid-template-columns:60px 1fr 34px;align-items:center;gap:8px;margin-top:11px}
+.hbar-row .hl9{font-family:'Geist Mono',monospace;font-size:9.5px;color:#40382c}
+.hbar-track{height:13px;border-left:1px solid #b3a883}
+.hbar-track i{display:block;height:100%;background:#5b6472;border-radius:0 3px 3px 0}
+.hbar-track i.hot{background:#8a6a3f}
+.hbar-row .hv{font-family:'Geist Mono',monospace;font-size:9.5px;color:#40382c;text-align:right}
+.idx-cta{margin-top:30px;border-top:1px solid #191511;padding-top:16px;text-align:center}
+.idx-cta .lead-line{font-size:15.5px;font-style:italic;font-weight:500}
+.idx-cta .lead-line b{font-style:italic;font-weight:700}
+.idx-cta .sub-cta{font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#8a6a3f;margin-top:8px}
+
+/* ---------- capture mode (?only=sNN) — wins over tabs, grid, and zoom ---------- */
+body.capture .board{max-width:none;padding:24px 28px}
+body.capture .grid{display:block;padding-top:0}
+body.capture .sec{border:none;border-radius:0;background:transparent;padding:0;cursor:default}
+body.capture .frame-wrap{zoom:1 !important}
+body.capture .tabbar{display:none}
+body.capture .xbtn{display:none}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <!-- ================= BOARD HEADER ================= -->
+  <header class="board-head">
+    <div class="eyebrow">OCEAN CREST VENTURES · SOLUTION CONCEPTS</div>
+    <h1 class="board-title">The Source of Truth</h1>
+    <p class="board-sub">Paperboy Ventures — nine systems, one platform · Prepared July 22, 2026 · <b>Private &amp; confidential</b></p>
+    <p class="thesis">Every system below reads from — and writes back to — one record of the business.</p>
+  </header>
+
+  <nav class="tabbar" id="tabbar" aria-label="System categories">
+    <button class="tab active" data-filter="all">All Systems<span class="ct">(9)</span></button>
+    <button class="tab" data-filter="fund">The Fund<span class="ct">(4)</span></button>
+    <button class="tab" data-filter="paper">The Paper<span class="ct">(3)</span></button>
+    <button class="tab" data-filter="network">The Network<span class="ct">(2)</span></button>
+  </nav>
+
+  <div class="grid" id="grid">
+
+  <!-- ================= 01 · CO-INVEST ROOM ================= -->
+  <section class="sec" id="s01" data-cat="fund">
+    <div class="sec-head">
+      <span class="idx">01</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">The Co-Invest Room</h2>
+        <p class="sec-sum">Side-letter co-invest obligations tracked in Kyle&rsquo;s head and old email threads <span class="arr">&rarr;</span> a gated room where every offer is made, logged, and retired on schedule.</p>
+      </div>
+      <span class="cat-tag">THE FUND</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="browser">
+        <div class="bbar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><span>https://</span>os.paperboyventures.com/co-invest/freaks-of-nature</span>
+          <span class="bsp"></span>
+        </div>
+        <div class="news coinvest">
+          <div class="ci-inner">
+            <div class="ci-eyebrow">PAPERBOY VENTURES · CO-INVESTMENT — SHARED WITH YOU BY KYLE</div>
+            <h3 class="ci-h">Freaks of Nature — Series&nbsp;A</h3>
+            <p class="ci-meta"><b>Category:</b> Better-for-you snacking &nbsp;&middot;&nbsp; <b>Security:</b> Priced equity &nbsp;&middot;&nbsp; <b>Allocation window:</b> 14 days</p>
+
+            <div class="ci-block ci-memo">
+              <div class="nlabel">FROM THE PFI MEMO</div>
+              <p><b>Velocity:</b> $41 per store per week in the natural channel, up 22% since March — strong for the set.</p>
+              <p><b>Efficiency:</b> $3.1M raised against $5.6M trailing net sales — TER 1.8x, ahead of the Fund&nbsp;I median.</p>
+              <p><b>Risk, named:</b> one co-packer today; a second line is qualifying now, live by Q4.</p>
+              <p><b>Risk, named:</b> founder-led sales to date; the first VP of Sales is budgeted from this round.</p>
+            </div>
+
+            <div class="ci-block">
+              <div class="nlabel">DATA ROOM</div>
+              <div style="margin-top:8px">
+                <div class="ci-file"><span>Investment Memo.pdf</span><span class="lead"></span><span class="sz">1.2&nbsp;MB</span></div>
+                <div class="ci-file"><span>Company Deck.pdf</span><span class="lead"></span><span class="sz">8.4&nbsp;MB</span></div>
+                <div class="ci-file"><span>PFI Returns Model.xlsx</span><span class="lead"></span><span class="sz">214&nbsp;KB</span></div>
+              </div>
+            </div>
+
+            <div class="ci-terms">
+              <div class="ci-term"><div class="nlabel">ROUND</div><div class="val">$4.0M Series A</div></div>
+              <div class="ci-term"><div class="nlabel">PRE-MONEY</div><div class="val">$16M</div></div>
+              <div class="ci-term"><div class="nlabel">PAPERBOY ALLOCATION</div><div class="val">$750K</div></div>
+              <div class="ci-term"><div class="nlabel">MINIMUM</div><div class="val">$50K</div></div>
+            </div>
+
+            <div class="ci-actions">
+              <span class="btn dark">Indicate interest — $250K</span>
+              <span class="btn quiet">Pass, show me the next one</span>
+            </div>
+            <p class="ci-foot">Offer 1 of 2 owed this year under side letter &nbsp;&middot;&nbsp; Rule 506(c)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 01</span>Every share tracked; the side-letter obligation retires itself.</p>
+  </section>
+
+  <!-- ================= 02 · DEAL INTELLIGENCE EXTRACTOR ================= -->
+  <section class="sec" id="s02" data-cat="fund">
+    <div class="sec-head">
+      <span class="idx">02</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">Deal Intelligence Extractor</h2>
+        <p class="sec-sum">768 founder applications sitting as unread prose <span class="arr">&rarr;</span> structured, queryable deal records — filed, staged, and prioritized in one pass.</p>
+      </div>
+      <span class="cat-tag">THE FUND</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="browser">
+        <div class="bbar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><span>https://</span>os.paperboyventures.com/crm/inbox/extract</span>
+          <span class="bsp"></span>
+        </div>
+        <div class="os">
+          <div class="oshead">
+            <div>
+              <div class="meta">DEAL INTELLIGENCE · INBOX</div>
+              <h3>Application APP-0647</h3>
+              <div class="sub">Received Jul 19, 2026 · via paperboyventures.com/apply</div>
+            </div>
+            <span class="btn">File to CRM &rarr;</span>
+          </div>
+          <div class="split">
+            <div class="panel pad">
+              <div class="meta">THE MESSAGE (AS SUBMITTED)</div>
+              <div class="msg-from"><span>From: <b>Danny R. — founder, Grove Press Juice</b></span><span class="chip">/apply</span></div>
+              <p class="msg-body">&ldquo;Hi Paperboy team — we are a team of lifelong beverage brand builders with three exits between us. Our cold-pressed line is now in <mark>over 50 distributors signed</mark> throughout the country, and <mark>Niagara onboarding us</mark> as our co-packer next month. We are <mark>raising $500K on a SAFE</mark> at <mark>$10M pre</mark> to support chain promotions at Sprouts and Fresh Thyme this fall, and would love to get samples in front of Kyle before the round closes.&rdquo;</p>
+            </div>
+            <div class="panel pad">
+              <div class="meta bronze" style="margin-bottom:6px">EXTRACTED — READY TO FILE</div>
+              <div class="xrow"><span class="xl">Category</span><span class="xv">Beverage &middot; Juice</span><span class="tick">&#10003; from message</span></div>
+              <div class="xrow"><span class="xl">Distributors</span><span class="xv">50+ signed</span><span class="tick">&#10003; from message</span></div>
+              <div class="xrow"><span class="xl">Co-packer</span><span class="xv">Niagara</span><span class="tick">&#10003; from message</span></div>
+              <div class="xrow"><span class="xl">Raise</span><span class="xv">$500K SAFE</span><span class="tick">&#10003; from message</span></div>
+              <div class="xrow"><span class="xl">Valuation</span><span class="xv">$10M pre</span><span class="tick">&#10003; from message</span></div>
+              <div class="xrow"><span class="xl">Stage suggestion</span><span class="xv"><span class="chip bronze">Outreach</span></span><span class="tick">&#10003; from message</span></div>
+              <div class="xrow"><span class="xl">Priority suggestion</span><span class="xv"><span class="chip bronze">P4</span></span><span class="tick">&#10003; from message</span></div>
+            </div>
+          </div>
+          <div class="panel progbar-row">
+            <span class="ptext"><b>631 of 768</b> deals enriched &nbsp;&middot;&nbsp; <b>47</b> need review</span>
+            <span class="prog"><i></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 02</span>768 applications become a queryable asset — the 630 unstaged get triaged in the same pass.</p>
+  </section>
+
+  <!-- ================= 03 · MEMO DESK ================= -->
+  <section class="sec" id="s03" data-cat="fund">
+    <div class="sec-head">
+      <span class="idx">03</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">Memo Desk</h2>
+        <p class="sec-sum">Memos written from scratch the night before committee <span class="arr">&rarr;</span> a house-format draft in 40 seconds, pulled straight from the deal record.</p>
+      </div>
+      <span class="cat-tag">THE FUND</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="browser">
+        <div class="bbar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><span>https://</span>os.paperboyventures.com/crm/loom-brands/memo</span>
+          <span class="bsp"></span>
+        </div>
+        <div class="os">
+          <div class="oshead">
+            <div>
+              <div class="meta">CRM · DEAL</div>
+              <h3>Loom Brands — Founder Call</h3>
+              <div class="chiprow"><span class="chip">Seed</span><span class="chip">Snacks &middot; Crackers</span><span class="chip">Outreach</span><span class="chip bronze">P3</span></div>
+            </div>
+            <span class="btn">Draft PFI memo</span>
+          </div>
+          <div class="memo-grid">
+            <div class="panel memo-doc">
+              <div class="memo-title">Loom Brands - Deal Memo - Paperboy Fund I - Aug 2026</div>
+
+              <div class="memo-sec">1. Executive Summary</div>
+              <dl class="kv">
+                <dt>Company</dt><dd>Loom Brands</dd>
+                <dt>Sector</dt><dd>Snacks &middot; Woven wheat crackers</dd>
+                <dt>Stage</dt><dd>Seed</dd>
+                <dt>Security</dt><dd>SAFE &middot; $12M cap</dd>
+              </dl>
+              <table class="fin">
+                <tr><th>Period</th><th>Net Rev</th><th>GM%</th><th>EBITDA</th></tr>
+                <tr><td>FY24A</td><td>$1.2M</td><td>38%</td><td>-$410K</td></tr>
+                <tr><td>FY25E</td><td>$2.8M</td><td>42%</td><td>-$620K</td></tr>
+              </table>
+              <div class="ter">TER: $1.9M raised / $2.8M net sales = <b>1.5x</b></div>
+
+              <div class="memo-sec">2. Investment Highlights (Top 5)</div>
+              <p class="hl"><b>1.</b> Velocity $28/store/week across 610 natural doors — above the Fund I snack median of $19.</p>
+              <p class="hl"><b>2.</b> Whole-grain woven cracker at 9g protein; the sub-category is growing 14% while legacy crackers decline.</p>
+              <p class="hl faint"><span class="faint">3&ndash;5. &hellip;</span></p>
+
+              <div class="memo-sec">3. Risks (Top 3)</div>
+              <p class="risk-blunt">1. Founder has never operated past $5M — <em>(check with committee)</em>.</p>
+              <p class="hl"><span class="faint">2&ndash;3. &hellip;</span></p>
+
+              <div class="memo-sec">4. The Ask &amp; Use of Funds</div>
+              <p class="fadeout">Raising $1.5M on a SAFE at a $12M cap; 60% to working capital ahead of the January natural-channel reset, 25% to the first sales hire, and&hellip;</p>
+            </div>
+            <div class="memo-side">
+              <div class="panel"><div class="meta">Source</div><div class="sv">House template</div><div class="sd">The PFI memo format, unchanged.</div></div>
+              <div class="panel"><div class="meta">Pulled</div><div class="sv">14 fields</div><div class="sd">Straight from the deal record — nothing retyped.</div></div>
+              <div class="panel"><div class="meta bronze">Speed</div><div class="sv">Draft in 40 seconds</div><div class="sd">Decisions happen in the meeting, not the doc.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 03</span>Drafted through Kyle&rsquo;s own Claude seat — house format in, memo out, no per-token bill.</p>
+  </section>
+
+  <!-- ================= 04 · DEALS EPISODE ENGINE ================= -->
+  <section class="sec" id="s04" data-cat="paper">
+    <div class="sec-head">
+      <span class="idx">04</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">DEALS Episode Engine</h2>
+        <p class="sec-sum">Content and deal flow run as two separate jobs <span class="arr">&rarr;</span> every closed deal auto-assembles its episode brief and newsletter block.</p>
+      </div>
+      <span class="cat-tag">THE PAPER</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="browser">
+        <div class="bbar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><span>https://</span>os.paperboyventures.com/deals/episodes/26</span>
+          <span class="bsp"></span>
+        </div>
+        <div class="os">
+          <div class="oshead">
+            <div>
+              <div class="meta">DEALS · EPISODE ENGINE</div>
+              <h3>Closed &rarr; on air</h3>
+            </div>
+            <span class="meta">EP. 26 · IN ASSEMBLY</span>
+          </div>
+          <div class="flow">
+            <div class="panel step">
+              <div class="meta">STEP 1 · CRM</div>
+              <div class="deal-name">Toto</div>
+              <div class="chiprow"><span class="chip solid">CLOSED</span><span class="chip">Fund I</span><span class="chip">P6</span></div>
+              <div class="deal-line">Closed <b>Jul 14, 2026</b> &middot; <b>$350K</b></div>
+              <div class="deal-line">Category: Beverage &middot; Sparkling botanicals</div>
+            </div>
+            <div class="flowarr">&rarr;</div>
+            <div class="panel step">
+              <div class="meta bronze">STEP 2 · EPISODE BRIEF — ASSEMBLED</div>
+              <div class="brief-title">DEALS Ep. 26 — Toto</div>
+              <div class="brow"><div class="bl">Hook</div><div class="bv">&ldquo;Nobody wanted sparkling botanicals — then 240 doors said yes.&rdquo;</div></div>
+              <div class="brow"><div class="bl">Pulled</div><div class="bv">3 founder quotes from the application</div></div>
+              <div class="brow"><div class="bl">Cleared for air</div><div class="bv">Velocity +18% MoM &middot; 240 doors</div></div>
+            </div>
+            <div class="flowarr">&rarr;</div>
+            <div class="panel step">
+              <div class="meta">STEP 3 · NEWSLETTER BLOCK</div>
+              <div class="mini-news">
+                <div class="mini-mast"><span class="frak">Paperboy</span><span class="nlabel">DEALS</span></div>
+                <hr class="ndouble">
+                <div class="mini-h">DEALS Ep. 26: How Toto Closed Its Round</div>
+                <p class="mini-dek">The 240-door playbook, the co-packer pivot, and the number that closed the round.</p>
+                <div class="mini-cta">WATCH THE EPISODE &rarr;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 04</span>Every closed deal ships an episode — deal flow becomes the show.</p>
+  </section>
+
+  <!-- ================= 05 · THE MORNING ROUTE ================= -->
+  <section class="sec" id="s05" data-cat="paper">
+    <div class="sec-head">
+      <span class="idx">05</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">The Morning Route</h2>
+        <p class="sec-sum">Mornings that start in six tabs and two inboxes <span class="arr">&rarr;</span> one edition, delivered to the phone before 7am.</p>
+      </div>
+      <span class="cat-tag">THE PAPER</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-screen news">
+            <div class="notch"></div>
+            <div class="mr-mast">
+              <span class="frak">Paperboy</span>
+              <div class="mr-title">The Morning Route</div>
+              <div class="mr-date">Tuesday, July 21, 2026 &middot; Edition No. 214</div>
+              <hr class="ndouble">
+            </div>
+
+            <div class="mr-sec">
+              <div class="mr-sechead"><span class="nlabel">ON THE WIRE</span><hr class="nrule"></div>
+              <div class="mr-headline">Picolette: Olivia Culpo&rsquo;s baby brand lands exclusively at Target</div>
+              <div class="mr-headline">Organic Traditions raises $10.5M for U.S. expansion</div>
+              <div class="mr-headline">Sprouts sets fall reset: 41 emerging brands added chainwide</div>
+            </div>
+
+            <div class="mr-sec">
+              <div class="mr-sechead"><span class="nlabel">YOUR DESK</span><hr class="nrule"></div>
+              <div class="mr-desk"><i></i><span>Capital call — 2 wires outstanding, due Fri</span></div>
+              <div class="mr-desk"><i></i><span>Co-invest offer #2 owed to partner — 41 days</span></div>
+              <div class="mr-desk"><i></i><span>Golf Party: 12 RSVPs, 2 pending approval</span></div>
+            </div>
+
+            <div class="mr-sec">
+              <div class="mr-sechead"><span class="nlabel">THE PIPELINE</span><hr class="nrule"></div>
+              <div class="mr-pipe"><b>3 deals moved yesterday</b> &middot; Loom Brands &rarr; Outreach</div>
+            </div>
+
+            <div class="mr-foot">Printed for Kyle · 6:58 AM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 05</span>The daily brief Kyle already asked for — rebuilt on rails that don&rsquo;t bill per token.</p>
+  </section>
+
+  <!-- ================= 06 · PORTFOLIO & LP UPDATE DESK ================= -->
+  <section class="sec" id="s06" data-cat="fund">
+    <div class="sec-head">
+      <span class="idx">06</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">Portfolio &amp; LP Update Desk</h2>
+        <p class="sec-sum">Quarterly LP letters assembled by hand from email threads <span class="arr">&rarr;</span> portfolio numbers flow straight from company updates into the draft.</p>
+      </div>
+      <span class="cat-tag">THE FUND</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="browser">
+        <div class="bbar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><span>https://</span>os.paperboyventures.com/portfolio</span>
+          <span class="bsp"></span>
+        </div>
+        <div class="os">
+          <div class="oshead">
+            <div>
+              <div class="meta">PORTFOLIO · FUND I</div>
+              <h3>Quarterly picture — Q3 2026</h3>
+              <div class="sub">Updated Jul 18 from company updates &middot; 4 of 4 reporting</div>
+            </div>
+            <span class="meta">FIGURES: QUARTER TO DATE</span>
+          </div>
+          <div class="port-grid">
+            <div class="panel" style="overflow:hidden">
+              <table class="tbl">
+                <tr><th>Company</th><th>Net Rev (Q)</th><th>GM%</th><th>EBITDA</th><th>vs LY</th><th>Trend</th></tr>
+                <tr>
+                  <td class="co">Toto</td><td class="num">$612K</td><td class="num">44%</td><td class="num">-$88K</td>
+                  <td><span class="up">&#9650; +38%</span></td>
+                  <td><svg class="spark" width="92" height="26" viewBox="0 0 92 26"><polyline points="2,22 20,19 38,20 56,14 74,9 90,4" fill="none" stroke="#5b6472" stroke-width="1.5"/><circle cx="90" cy="4" r="2.2" fill="#8a6a3f"/></svg></td>
+                </tr>
+                <tr>
+                  <td class="co">Harken Sweets</td><td class="num">$1.41M</td><td class="num">47%</td><td class="num">$62K</td>
+                  <td><span class="up">&#9650; +21%</span></td>
+                  <td><svg class="spark" width="92" height="26" viewBox="0 0 92 26"><polyline points="2,20 20,18 38,15 56,13 74,9 90,6" fill="none" stroke="#5b6472" stroke-width="1.5"/><circle cx="90" cy="6" r="2.2" fill="#8a6a3f"/></svg></td>
+                </tr>
+                <tr>
+                  <td class="co">CoAqua</td><td class="num">$890K</td><td class="num">36%</td><td class="num">-$140K</td>
+                  <td><span class="up">&#9650; +9%</span></td>
+                  <td><svg class="spark" width="92" height="26" viewBox="0 0 92 26"><polyline points="2,16 20,17 38,14 56,15 74,12 90,11" fill="none" stroke="#5b6472" stroke-width="1.5"/><circle cx="90" cy="11" r="2.2" fill="#8a6a3f"/></svg></td>
+                </tr>
+                <tr>
+                  <td class="co">Mooski</td><td class="num">$404K</td><td class="num">51%</td><td class="num">-$61K</td>
+                  <td><span class="down">&#9660; -6%</span></td>
+                  <td><svg class="spark" width="92" height="26" viewBox="0 0 92 26"><polyline points="2,9 20,11 38,10 56,13 74,12 90,16" fill="none" stroke="#5b6472" stroke-width="1.5"/><circle cx="90" cy="16" r="2.2" fill="#8a6a3f"/></svg></td>
+                </tr>
+              </table>
+            </div>
+            <div class="panel letter">
+              <div class="meta bronze">Q3 LETTER — DRAFT READY</div>
+              <p class="letter-body">&ldquo;Fund I closed the quarter with three of four core positions growing net revenue year over year, led by Harken Sweets&rsquo; first EBITDA-positive quarter. We added one new position — Toto, $350K at close — and opened our first co-investment room of the year with a $750K Series A allocation in Freaks of Nature.&rdquo;</p>
+              <div style="margin-top:14px"><span class="btn">Review &amp; send to 14 LPs</span></div>
+              <p class="letter-note">Figures flow from company updates — nothing retyped, nothing stale.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 06</span>The same revenue / margin / EBITDA triplets fill the table and the quarterly letter — typed once, by the company.</p>
+  </section>
+
+  <!-- ================= 07 · THE PAPERBOY GRAPH ================= -->
+  <section class="sec" id="s07" data-cat="network">
+    <div class="sec-head">
+      <span class="idx">07</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">The Paperboy Graph</h2>
+        <p class="sec-sum">Relationships that live in memory and old threads <span class="arr">&rarr;</span> one graph across events, deals, shows, and jobs — that answers questions.</p>
+      </div>
+      <span class="cat-tag">THE NETWORK</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="browser">
+        <div class="bbar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><span>https://</span>os.paperboyventures.com/graph</span>
+          <span class="bsp"></span>
+        </div>
+        <div class="os">
+          <div class="oshead">
+            <div>
+              <div class="meta">THE PAPERBOY GRAPH</div>
+              <h3>One network, every touchpoint</h3>
+            </div>
+            <span class="meta">VIEW: PERSON · RONAK SHAH</span>
+          </div>
+          <div class="graph-grid">
+            <div class="panel graph-panel">
+              <svg width="100%" viewBox="0 0 640 440" font-family="DM Sans, sans-serif">
+                <!-- first-degree edges -->
+                <g stroke="#c9c1b2" stroke-width="1.2">
+                  <line x1="280" y1="205" x2="90"  y2="92"/>
+                  <line x1="280" y1="205" x2="415" y2="72"/>
+                  <line x1="280" y1="205" x2="545" y2="195"/>
+                  <line x1="280" y1="205" x2="450" y2="330"/>
+                  <line x1="280" y1="205" x2="115" y2="325"/>
+                </g>
+                <!-- second-degree edges (faint) -->
+                <g stroke="#c9c1b2" stroke-width="1" stroke-dasharray="2 3" opacity=".6">
+                  <line x1="90"  y1="92"  x2="38"  y2="30"/>
+                  <line x1="90"  y1="92"  x2="196" y2="24"/>
+                  <line x1="415" y1="72"  x2="555" y2="38"/>
+                  <line x1="115" y1="325" x2="60"  y2="405"/>
+                </g>
+                <!-- edge labels -->
+                <g font-family="Geist Mono, monospace" font-size="8.5" fill="#8a6a3f" text-anchor="middle"
+                   style="paint-order:stroke" stroke="#ffffff" stroke-width="3">
+                  <text x="185" y="144">guest</text>
+                  <text x="347" y="134">guest</text>
+                  <text x="415" y="196">founder</text>
+                  <text x="368" y="264">applied</text>
+                  <text x="193" y="261">intro&rsquo;d</text>
+                </g>
+                <!-- second-degree nodes -->
+                <g fill="#e8e2d6" stroke="#b8b0a0" stroke-width="1">
+                  <circle cx="38"  cy="30"  r="4.5"/>
+                  <circle cx="196" cy="24"  r="4.5"/>
+                  <circle cx="555" cy="38"  r="4.5"/>
+                  <circle cx="60"  cy="405" r="4.5"/>
+                </g>
+                <g font-size="9" fill="#8b8375">
+                  <text x="48"  y="33">Sophie L. — RSVP &rsquo;26</text>
+                  <text x="208" y="27">Golf Party &rsquo;25</text>
+                  <text x="545" y="30" text-anchor="end">Camille R. — guest</text>
+                  <text x="74"  y="408">Contour Venture Partners</text>
+                </g>
+                <!-- first-degree nodes -->
+                <g fill="#ffffff" stroke="#5b6472" stroke-width="1.5">
+                  <circle cx="90"  cy="92"  r="6"/>
+                  <circle cx="415" cy="72"  r="6"/>
+                  <circle cx="545" cy="195" r="6"/>
+                  <circle cx="450" cy="330" r="6"/>
+                  <circle cx="115" cy="325" r="6"/>
+                </g>
+                <g font-size="11" fill="#1a1713" font-weight="600" text-anchor="middle">
+                  <text x="90"  y="72">Invitational Mar &rsquo;26</text>
+                  <text x="415" y="52">DEALS Ep. 19</text>
+                  <text x="545" y="174">Obvi — deal &middot; Watch</text>
+                  <text x="450" y="353">JOBS post — VP Growth</text>
+                  <text x="115" y="348">Matt Gorin — Contour</text>
+                </g>
+                <!-- center node -->
+                <circle cx="280" cy="205" r="18" fill="none" stroke="#8a6a3f" stroke-width="1.5" opacity=".3"/>
+                <circle cx="280" cy="205" r="10" fill="#ffffff" stroke="#8a6a3f" stroke-width="3"/>
+                <text x="280" y="243" font-size="13" font-weight="700" fill="#1a1713" text-anchor="middle">Ronak Shah</text>
+                <text x="280" y="258" font-size="11" fill="#5b6472" text-anchor="middle">Obvi</text>
+              </svg>
+            </div>
+            <div>
+              <div class="panel qcard">
+                <div class="meta">ASK THE GRAPH</div>
+                <div class="qprompt">&#9656; who do we know at Sprouts?<span class="cursor"></span></div>
+              </div>
+              <div class="panel qcard" style="margin-top:12px">
+                <div class="meta bronze">2 PATHS FOUND</div>
+                <div class="qpath">
+                  <div class="qn">Erin Anderson — Manna Tree</div>
+                  <div class="qd">Former Sprouts buyer network &middot; met at Invitational Mar &rsquo;26 &middot; warm</div>
+                </div>
+                <div class="qpath">
+                  <div class="qn">Toto — portfolio</div>
+                  <div class="qd">240 doors incl. Sprouts SoCal &middot; buyer contact on file from the June update</div>
+                </div>
+                <div style="margin-top:16px"><span class="btn quiet">Draft the intro email &rarr;</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel statstrip">
+            <div class="stat"><div class="sn">4,913</div><div class="sl">People</div></div>
+            <div class="stat"><div class="sn">1,102</div><div class="sl">Companies</div></div>
+            <div class="statnote">Every RSVP, application &amp; subscription feeds it</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 07</span>The proprietary network, made queryable.</p>
+  </section>
+
+  <!-- ================= 08 · ADVISOR BENCH ================= -->
+  <section class="sec" id="s08" data-cat="network">
+    <div class="sec-head">
+      <span class="idx">08</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">Advisor Bench</h2>
+        <p class="sec-sum">27 offers of help lost in an inbox <span class="arr">&rarr;</span> advisors cataloged by skill and matched to portfolio needs, with receipts.</p>
+      </div>
+      <span class="cat-tag">THE NETWORK</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="browser">
+        <div class="bbar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><span>https://</span>os.paperboyventures.com/advisors</span>
+          <span class="bsp"></span>
+        </div>
+        <div class="os">
+          <div class="oshead">
+            <div>
+              <div class="meta">ADVISOR BENCH</div>
+              <h3>27 offers of help, cataloged</h3>
+              <div class="sub">From advisor applications &middot; matched against open portfolio needs</div>
+            </div>
+            <span class="meta">SHOWING: TOP MATCHES</span>
+          </div>
+          <div class="bench">
+            <div class="panel adv">
+              <div class="adv-name">Malicky B.</div>
+              <div class="adv-role">Importer / Distiller</div>
+              <div class="chiprow"><span class="chip">3-tier distribution</span><span class="chip">RTD scaling</span><span class="chip">canning ops</span></div>
+              <hr class="adv-div">
+              <div class="match-label">MATCH</div>
+              <div class="match-to"><span>&rarr;</span> Southside Cocktails (Fund I)</div>
+              <div class="mdots"><i></i><i></i><i></i><i></i><i class="off"></i><span class="ml">STRONG</span></div>
+            </div>
+            <div class="panel adv">
+              <div class="adv-name">Dustin D.</div>
+              <div class="adv-role">Events &amp; Activation</div>
+              <div class="chiprow"><span class="chip">field marketing</span><span class="chip">sampling programs</span><span class="chip">festival ops</span></div>
+              <hr class="adv-div">
+              <div class="match-label">MATCH</div>
+              <div class="match-to"><span>&rarr;</span> Toto — summer demo circuit</div>
+              <div class="mdots"><i></i><i></i><i></i><i class="off"></i><i class="off"></i><span class="ml">GOOD</span></div>
+            </div>
+            <div class="panel adv">
+              <div class="adv-name">Renee K.</div>
+              <div class="adv-role">Former Grocery Buyer &middot; Kroger</div>
+              <div class="chiprow"><span class="chip">category review prep</span><span class="chip">retail math</span><span class="chip">broker selection</span></div>
+              <hr class="adv-div">
+              <div class="match-label">MATCH</div>
+              <div class="match-to"><span>&rarr;</span> Harken Sweets (Fund I)</div>
+              <div class="mdots"><i></i><i></i><i></i><i></i><i></i><span class="ml">STRONG</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 08</span>&ldquo;Committee value-add&rdquo; is a scorecard line — this is the system behind it.</p>
+  </section>
+
+  <!-- ================= 09 · THE PAPERBOY INDEX ================= -->
+  <section class="sec" id="s09" data-cat="paper">
+    <div class="sec-head">
+      <span class="idx">09</span>
+      <div class="sec-hgroup">
+        <h2 class="sec-name">The Paperboy Index</h2>
+        <p class="sec-sum">Application data used once, then shelved <span class="arr">&rarr;</span> a quarterly published index on seed CPG that nobody else can print.</p>
+      </div>
+      <span class="cat-tag">THE PAPER</span>
+    </div>
+    <div class="frame-wrap">
+      <div class="news sheet">
+        <div class="idx-mast">
+          <span class="frak">Paperboy</span>
+          <div class="idx-title">THE PAPERBOY INDEX</div>
+          <div class="idx-sub">The State of Seed CPG &middot; Q3 2026 &middot; drawn from 768 applications</div>
+          <hr class="ndouble">
+        </div>
+        <div class="idx-cols">
+
+          <div class="idx-col">
+            <div class="chart-t">Median gross margin by category</div>
+            <div class="hbar-row"><span class="hl9">Beverage</span><span class="hbar-track"><i style="width:55%"></i></span><span class="hv">34%</span></div>
+            <div class="hbar-row"><span class="hl9">Snacks</span><span class="hbar-track"><i style="width:66%"></i></span><span class="hv">41%</span></div>
+            <div class="hbar-row"><span class="hl9">VMS</span><span class="hbar-track"><i class="hot" style="width:100%"></i></span><span class="hv">62%</span></div>
+            <div class="hbar-row"><span class="hl9">Candy</span><span class="hbar-track"><i style="width:76%"></i></span><span class="hv">47%</span></div>
+            <div class="chart-n">n = 768 &middot; self-reported, trailing twelve months</div>
+          </div>
+
+          <div class="idx-col">
+            <div class="chart-t">TER distribution</div>
+            <svg width="100%" viewBox="0 0 300 175" style="margin-top:8px">
+              <g font-family="Geist Mono, monospace" font-size="8.5" fill="#8b8168" text-anchor="middle">
+                <text x="36"  y="98">74</text>
+                <text x="81"  y="49">162</text>
+                <text x="126" y="29">198</text>
+                <text x="171" y="61">141</text>
+                <text x="216" y="86">96</text>
+                <text x="261" y="116">42</text>
+              </g>
+              <g fill="#5b6472">
+                <rect x="18"  y="104" width="36" height="41"  rx="2"/>
+                <rect x="63"  y="55"  width="36" height="90"  rx="2"/>
+                <rect x="108" y="35"  width="36" height="110" rx="2" fill="#8a6a3f"/>
+                <rect x="153" y="67"  width="36" height="78"  rx="2"/>
+                <rect x="198" y="92"  width="36" height="53"  rx="2"/>
+                <rect x="243" y="122" width="36" height="23"  rx="2"/>
+              </g>
+              <line x1="12" y1="145.5" x2="288" y2="145.5" stroke="#b3a883" stroke-width="1"/>
+              <g font-family="Geist Mono, monospace" font-size="8.5" fill="#40382c" text-anchor="middle">
+                <text x="36"  y="160">&lt;0.5x</text>
+                <text x="81"  y="160">0.5&ndash;1</text>
+                <text x="126" y="160">1&ndash;1.5</text>
+                <text x="171" y="160">1.5&ndash;2</text>
+                <text x="216" y="160">2&ndash;3</text>
+                <text x="261" y="160">&gt;3x</text>
+              </g>
+            </svg>
+            <div class="chart-n">TER = trailing net sales &divide; capital raised &middot; n = 713 reporting</div>
+          </div>
+
+          <div class="idx-col">
+            <div class="chart-t">Ask valuations, seed CPG</div>
+            <svg width="100%" viewBox="0 0 300 175" style="margin-top:8px">
+              <text x="137.5" y="40" font-family="Geist Mono, monospace" font-size="9.5" fill="#8a6a3f" text-anchor="middle" letter-spacing="1">$9.5M MEDIAN</text>
+              <line x1="50" y1="88" x2="250" y2="88" stroke="#8b8168" stroke-width="1.2"/>
+              <line x1="50" y1="74" x2="50" y2="102" stroke="#8b8168" stroke-width="1.2"/>
+              <line x1="250" y1="74" x2="250" y2="102" stroke="#8b8168" stroke-width="1.2"/>
+              <rect x="100" y="66" width="87.5" height="44" rx="2" fill="#5b6472" fill-opacity=".13" stroke="#5b6472" stroke-width="1.2"/>
+              <line x1="137.5" y1="60" x2="137.5" y2="116" stroke="#8a6a3f" stroke-width="2.5"/>
+              <g font-family="Geist Mono, monospace" font-size="9.5" fill="#40382c" text-anchor="middle">
+                <text x="50"  y="133">$6M</text>
+                <text x="250" y="133">$14M</text>
+              </g>
+              <line x1="12" y1="145.5" x2="288" y2="145.5" stroke="#b3a883" stroke-width="1"/>
+              <g font-family="Geist Mono, monospace" font-size="8.5" fill="#8b8168" text-anchor="middle">
+                <text x="50"  y="160">$6M</text>
+                <text x="150" y="160">$10M</text>
+                <text x="250" y="160">$14M</text>
+              </g>
+            </svg>
+            <div class="chart-n">Middle 50% of asks: $8M&ndash;$11.5M &middot; SAFEs at cap &middot; n = 768</div>
+          </div>
+
+        </div>
+        <div class="idx-cta">
+          <div class="lead-line">Where does your brand sit? <b>Submit your numbers &rarr; see your percentile.</b></div>
+          <div class="sub-cta">paperboyventures.com/index &middot; published quarterly</div>
+        </div>
+      </div>
+    </div>
+    <p class="cap"><span class="fig">FIG. 09</span>Nobody else has this data; published quarterly, it compounds the founder magnet.</p>
+  </section>
+
+  </div><!-- /grid -->
+
+  <!-- ================= BOARD FOOTER ================= -->
+  <footer class="board-foot">
+    <span>Ocean Crest Ventures · prepared for Paperboy Ventures · July 22, 2026</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var only = new URLSearchParams(location.search).get('only');
+  var secs = document.querySelectorAll('.sec');
+  var i;
+
+  /* Capture mode (?only=sNN) wins over everything: full size, no card chrome, no tabs. */
+  if (only) {
+    var target = document.getElementById(only);
+    if (target) {
+      document.body.classList.add('capture');
+      var kids = document.querySelectorAll('.board > *');
+      for (i = 0; i < kids.length; i++) {
+        if (!kids[i].contains(target)) kids[i].style.display = 'none';
+      }
+      for (i = 0; i < secs.length; i++) {
+        if (secs[i] !== target) secs[i].style.display = 'none';
+      }
+      return;
+    }
+  }
+
+  var tabs = document.querySelectorAll('.tab');
+  var bar = document.getElementById('tabbar');
+  var grid = document.getElementById('grid');
+  var barTop = bar.getBoundingClientRect().top + window.scrollY;
+
+  /* Odd visible count -> the last visible card spans both columns (no orphan gap). */
+  function updateSpan() {
+    var vis = [];
+    for (var s = 0; s < secs.length; s++) {
+      secs[s].classList.remove('span2');
+      if (secs[s].style.display !== 'none') vis.push(secs[s]);
+    }
+    if (vis.length % 2 === 1) vis[vis.length - 1].classList.add('span2');
+  }
+
+  function collapseAll() {
+    for (var s = 0; s < secs.length; s++) secs[s].classList.remove('expanded');
+  }
+
+  function applyFilter(filter) {
+    collapseAll();
+    for (var s = 0; s < secs.length; s++) {
+      var cat = secs[s].getAttribute('data-cat');
+      secs[s].style.display = (filter === 'all' || cat === filter) ? '' : 'none';
+    }
+    updateSpan();
+  }
+
+  function onTab() {
+    for (var j = 0; j < tabs.length; j++) tabs[j].classList.remove('active');
+    this.classList.add('active');
+    applyFilter(this.getAttribute('data-filter'));
+    if (window.scrollY > barTop) grid.scrollIntoView({ behavior: 'smooth' });
+  }
+  for (i = 0; i < tabs.length; i++) tabs[i].addEventListener('click', onTab);
+
+  /* Click to focus: expand a card to the full row; click again (or the corner button) collapses. */
+  function wireCard(sec) {
+    var x = document.createElement('button');
+    x.className = 'xbtn';
+    x.setAttribute('aria-label', 'Collapse');
+    x.innerHTML = '&#10005;';
+    x.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sec.classList.remove('expanded');
+    });
+    sec.appendChild(x);
+    sec.addEventListener('click', function () {
+      if (sec.classList.contains('expanded')) {
+        sec.classList.remove('expanded');
+      } else {
+        collapseAll();
+        sec.classList.add('expanded');
+        sec.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+  for (i = 0; i < secs.length; i++) wireCard(secs[i]);
+
+  updateSpan();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Netlify config for the Paperboy OS Next.js app.
+# The official Next.js runtime is auto-installed and handles SSR/middleware as
+# serverless + edge functions.
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

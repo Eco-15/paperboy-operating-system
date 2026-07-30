@@ -1,0 +1,1 @@
+ALTER TABLE "drive_file" ADD COLUMN "title" text;

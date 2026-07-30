@@ -1,0 +1,14 @@
+node_modules
+.next
+.netlify
+.claude
+tsconfig.tsbuildinfo
+.git
+archive
+.env
+.env.*
+docs
+*.md
+.DS_Store
+paperboy-os-home.png
+dashboard.html

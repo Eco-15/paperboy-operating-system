@@ -1,0 +1,1 @@
+ALTER TABLE "user_preference" ADD COLUMN "crm_seen_at" timestamp;

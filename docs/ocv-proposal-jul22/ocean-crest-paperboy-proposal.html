@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ocean Crest Ventures · Solutions Proposal — Paperboy Ventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #18181b; --body: #3f3f46; --soft: #52525b; --faint: #71717a;
+    --hairline: #e4e4e7; --teal: #0e7490; --amber: #f79a09; --amber-soft: #fef3cd;
+    --navy: #1a2332;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body { font-family: "Geist", "Helvetica Neue", Arial, sans-serif; color: var(--body);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in; height: 10.97in; margin: 0 auto; padding: 0.72in 0.78in 0.6in;
+    background: #fff; overflow: hidden; page-break-after: always; position: relative;
+  }
+  .page:last-child { page-break-after: auto; }
+  @media screen {
+    body { background: #ececec; padding: 24px 0; }
+    .page { box-shadow: 0 2px 18px rgba(0,0,0,.12); margin-bottom: 24px; }
+  }
+
+  .eyebrow {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 14px;
+  }
+  .eyebrow--gray { color: var(--faint); }
+  .eyebrow--amber { color: var(--amber); }
+
+  h1 { font-size: 33px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; margin-bottom: 8px; }
+  .subtitle { font-size: 15.5px; color: var(--soft); margin-bottom: 26px; }
+  h2 { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .section-note { font-size: 12.5px; color: var(--faint); margin-bottom: 20px; }
+
+  .hairline { border: 0; border-top: 1px solid var(--hairline); }
+
+  .meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px 28px;
+    padding: 18px 0 20px; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);
+    margin-bottom: 26px; }
+  .meta div { min-width: 0; }
+  .meta .k { font-family: "Geist Mono", monospace; font-size: 9.5px; letter-spacing: .15em;
+    color: var(--faint); text-transform: uppercase; margin-bottom: 5px; }
+  .meta .v { font-family: "Geist Mono", monospace; font-size: 12.5px; color: var(--ink); }
+
+  p.lede { font-size: 13px; line-height: 1.7; margin-bottom: 24px; }
+  .fineprint { font-size: 11px; line-height: 1.6; color: var(--faint); margin-top: 14px; }
+
+  /* scorecard */
+  .card { border: 1px solid var(--hairline); border-radius: 12px; padding: 26px 28px;
+    display: flex; gap: 30px; align-items: center; background: #fff; }
+  .gauge { flex: none; width: 148px; text-align: center; position: relative; }
+  .gauge svg { display: block; margin: 0 auto; }
+  .gauge .num { position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; }
+  .gauge .num b { font-size: 44px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .gauge .num span { font-family: "Geist Mono", monospace; font-size: 10.5px; color: var(--faint); margin-top: 4px; }
+  .pill { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--hairline);
+    border-radius: 999px; padding: 5px 13px; font-size: 11px; font-weight: 700;
+    letter-spacing: .06em; color: var(--ink); margin-bottom: 12px; }
+  .pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+  .takeaway { font-size: 16.5px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .card p { font-size: 12px; line-height: 1.6; margin-bottom: 14px; }
+  .bars .row { display: grid; grid-template-columns: 172px 1fr 128px; gap: 12px;
+    align-items: center; padding: 4.5px 0; }
+  .bars .lbl { font-size: 12px; font-weight: 600; color: var(--ink); }
+  .bars .track { display: block; height: 7px; border-radius: 999px; background: #ededf0; overflow: hidden; }
+  .bars .fill { display: block; height: 100%; border-radius: 999px; background: var(--amber); }
+  .bars .tag { font-family: "Geist Mono", monospace; font-size: 10px; color: var(--faint);
+    text-align: right; white-space: nowrap; }
+
+  /* solution blocks */
+  .solution { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 17px 0; }
+  .solution + .solution { border-top: 1px solid var(--hairline); }
+  .solution .idx { font-family: "Geist Mono", monospace; font-size: 12px; font-weight: 600;
+    color: var(--teal); padding-top: 2px; }
+  .solution h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 7px; }
+  .chip { display: inline-block; font-family: "Geist Mono", monospace; font-size: 8.5px;
+    letter-spacing: .1em; color: var(--teal); border: 1px solid var(--teal); border-radius: 999px;
+    padding: 2px 8px; margin-left: 8px; vertical-align: 2px; }
+  .problem { font-size: 12px; line-height: 1.62; margin-bottom: 8px; }
+  .problem b { font-family: "Geist Mono", monospace; font-size: 9.5px; letter-spacing: .14em;
+    color: var(--amber); font-weight: 600; }
+  .build { font-size: 12px; line-height: 1.62; margin-bottom: 8px; }
+  .outcome { font-size: 12px; line-height: 1.6; color: var(--ink); }
+  .outcome b { font-family: "Geist Mono", monospace; font-size: 9.5px; letter-spacing: .14em;
+    color: var(--teal); font-weight: 600; }
+
+  /* timeline */
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); margin: 22px 0 6px; }
+  .tl { position: relative; padding: 0 14px 0 0; }
+  .tl::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 1px; background: var(--hairline); }
+  .tl i { position: relative; z-index: 1; display: block; width: 11px; height: 11px;
+    border-radius: 50%; background: var(--navy); border: 2px solid #fff; }
+  .tl--end i { background: var(--teal); }
+  .tl .m { font-family: "Geist Mono", monospace; font-size: 10.5px; letter-spacing: .12em;
+    color: var(--ink); font-weight: 600; margin: 10px 0 4px; }
+  .tl--end .m { color: var(--teal); }
+  .tl p { font-size: 11px; line-height: 1.55; }
+
+  /* decisions */
+  .decisions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .decision { border: 1px solid var(--hairline); border-radius: 10px; padding: 13px 15px; }
+  .decision .k { font-family: "Geist Mono", monospace; font-size: 8.5px; letter-spacing: .15em;
+    color: var(--teal); font-weight: 600; margin-bottom: 6px; }
+  .decision h4 { font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .decision p { font-size: 10.5px; line-height: 1.5; color: var(--soft); }
+
+  .strip { border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);
+    padding: 14px 0; margin: 24px 0; font-size: 12px; line-height: 1.65; }
+  .strip b { color: var(--ink); }
+
+  ol.steps { list-style: none; margin-top: 12px; }
+  ol.steps li { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 8px 0; }
+  ol.steps .n { font-family: "Geist Mono", monospace; font-size: 12px; font-weight: 600; color: var(--teal); }
+  ol.steps p { font-size: 12.5px; line-height: 1.6; }
+  ol.steps p b { color: var(--ink); }
+
+  .signoff { margin-top: 26px; font-size: 13px; color: var(--ink); }
+  .signoff .sig { margin-top: 6px; font-size: 12.5px; color: var(--soft); }
+
+  .footer { position: absolute; left: 0.78in; right: 0.78in; bottom: 0.55in; }
+  .footer hr { margin-bottom: 12px; }
+  .footer p { font-size: 11px; color: var(--faint); line-height: 1.7; }
+
+  .logo-line { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
+  .logo-line svg { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────── PAGE 1 ─────────────────────────── -->
+<section class="page">
+  <div class="logo-line">
+    <svg viewBox="30 90 560 120" width="196" height="42" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#c5a028"/><stop offset="100%" stop-color="#d4af37"/>
+      </linearGradient></defs>
+      <g transform="translate(90, 150)">
+        <path d="M -50 -20 Q -25 -40, 0 -20 T 50 -20" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M -50 0 Q -25 -20, 0 0 T 50 0" fill="none" stroke="#1a2332" stroke-width="3" stroke-linecap="round"/>
+        <path d="M -50 20 Q -25 0, 0 20 T 50 20" fill="none" stroke="#1a2332" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+      </g>
+      <line x1="200" y1="110" x2="200" y2="190" stroke="#d4d4d4" stroke-width="1"/>
+      <g transform="translate(230, 150)">
+        <text x="0" y="-6" font-family="'Helvetica Neue','Inter',Arial,sans-serif" font-size="34" font-weight="300" fill="#1a2332" letter-spacing="6">OCEAN CREST</text>
+        <text x="0" y="28" font-family="'Helvetica Neue','Inter',Arial,sans-serif" font-size="15" font-weight="400" fill="#8a9299" letter-spacing="12">V E N T U R E S</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="eyebrow">Ocean Crest Ventures &middot; Solutions Proposal</div>
+  <h1>Paperboy Ventures</h1>
+  <div class="subtitle">New systems for the fund, the events, the talent arm, and the paper &mdash; Norwalk, Connecticut</div>
+
+  <div class="meta">
+    <div><div class="k">Prepared</div><div class="v">July 22, 2026</div></div>
+    <div><div class="k">Prepared by</div><div class="v">Ocean Crest Ventures</div></div>
+    <div><div class="k">Client</div><div class="v">Paperboy Ventures, LLC</div></div>
+    <div><div class="k">Focus</div><div class="v">Six systems &middot; Aug&ndash;Nov 2026</div></div>
+    <div><div class="k">Platform</div><div class="v">Paperboy Operating System</div></div>
+    <div><div class="k">Deadline</div><div class="v">Fund II first close &middot; Nov</div></div>
+  </div>
+
+  <p class="lede">Paperboy is scaling into a second fund, a corporate capital partnership, a
+  signature events franchise, and a placement arm &mdash; and the operation underneath still runs
+  on spreadsheets, PDF capital-call notices, and hand-typed status columns. This document
+  proposes six systems, built on the operating platform already in place, that let the same
+  small team carry all of it. Everything below is drawn from the operation&rsquo;s own files;
+  where we&rsquo;ve read something wrong, the plan moves &mdash; we&rsquo;d rather be corrected
+  across a table than be approximately right on paper.</p>
+
+  <div class="card">
+    <div class="gauge">
+      <svg width="148" height="148" viewBox="0 0 148 148">
+        <circle cx="74" cy="74" r="62" fill="none" stroke="#ededf0" stroke-width="10"/>
+        <circle cx="74" cy="74" r="62" fill="none" stroke="#f79a09" stroke-width="10"
+          stroke-linecap="round" stroke-dasharray="292 390" transform="rotate(-90 74 74)"/>
+      </svg>
+      <div class="num"><b>6</b><span>systems</span></div>
+    </div>
+    <div style="flex:1; min-width:0;">
+      <span class="pill"><i></i>SCALING INTO FUND II &mdash; ON SPREADSHEETS</span>
+      <div class="takeaway">The business is compounding. The back office is still manual.</div>
+      <p>Each line below is a live gap in the operation as it runs today &mdash; and each one
+      maps to a system on the pages that follow.</p>
+      <div class="bars">
+        <div class="row"><span class="lbl">LP onboarding &amp; compliance</span><span class="track"><span class="fill" style="width:16%"></span></span><span class="tag">AML/KYC: &ldquo;TBD&rdquo;</span></div>
+        <div class="row"><span class="lbl">Events operations</span><span class="track"><span class="fill" style="width:22%"></span></span><span class="tag">3 SPREADSHEETS/EVENT</span></div>
+        <div class="row"><span class="lbl">Talent network</span><span class="track"><span class="fill" style="width:12%"></span></span><span class="tag">500 PEOPLE, IDLE</span></div>
+        <div class="row"><span class="lbl">Audience product</span><span class="track"><span class="fill" style="width:28%"></span></span><span class="tag">3,800 READERS, NO APP</span></div>
+        <div class="row"><span class="lbl">Sponsorship sales</span><span class="track"><span class="fill" style="width:20%"></span></span><span class="tag">SOLD BY HAND</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="fineprint">Profile drawn from the operation itself &mdash; the fund&rsquo;s formation and
+  capital-call files, the spring Invitational RSVP master, the H2 sponsorship tracker, the talent
+  network sheet, and the newsletter&rsquo;s own circulation numbers. Floor readings, not forecasts;
+  where the files understate the load, the case only gets stronger.</p>
+</section>
+
+<!-- ─────────────────────────── PAGE 2 ─────────────────────────── -->
+<section class="page">
+  <h2>What we would build</h2>
+  <p class="section-note">Six systems on one platform &mdash; each answers a problem the operation
+  already has. One is working software today and can be demonstrated at the table; the rest are
+  designed and sequenced on page four.</p>
+
+  <div class="solution">
+    <div class="idx">01</div>
+    <div>
+      <h3>LP Onboarding Rails</h3>
+      <p class="problem"><b>THE PROBLEM&nbsp;&mdash;&nbsp;</b>Fund I&rsquo;s LP paperwork runs through a fund
+      administrator and email: subscription packets and accreditation letters collected by hand,
+      capital calls issued as one-off PDFs, the AML/KYC procedure still marked &ldquo;TBD&rdquo; on the
+      fund&rsquo;s own document checklist &mdash; and a signed side letter owes co-invest offers
+      (two a year, four per investment period) that no system anywhere is tracking.</p>
+      <p class="build">A fund-onboarding rail inside the Operating System: invite &rarr; accreditation
+      questionnaire &rarr; document upload &rarr; verified &rarr; countersigned &rarr; funded &mdash; each step
+      stamped, dated, and visible from one desk. Capital calls and side-letter obligations live on the
+      same ledger and surface themselves before they come due, not after.</p>
+      <p class="outcome"><b>OUTCOME&nbsp;&mdash;&nbsp;</b>A new fund onboards in a day. The incoming corporate
+      partnership (up to $250K per deal, roughly ten deals over twelve months) and Fund II&rsquo;s November
+      first close board the same rail &mdash; and the $22&ndash;55K-a-year fund-administration line stops growing.</p>
+    </div>
+  </div>
+
+  <div class="solution">
+    <div class="idx">02</div>
+    <div>
+      <h3>The Events Desk <span class="chip">WORKING SOFTWARE &middot; DEMO TODAY</span></h3>
+      <p class="problem"><b>THE PROBLEM&nbsp;&mdash;&nbsp;</b>The spring Invitational &mdash; 175 guests, a
+      $34K night at 35% margin &mdash; ran on a Google Form, a master spreadsheet with hand-typed
+      Approved / Player / Waitlist columns, a second response tracker built after the fact, and sponsor
+      deliverables buried inside PDF agreements.</p>
+      <p class="build">One events desk: a public RSVP page &rarr; an approval queue &rarr; phone-first
+      check-in &rarr; foursome pairings &rarr; a live scorecard &rarr; sponsor deliverables tracked item by
+      item ($20,000 title slot, three $8,000 partner slots). Built for the fall Golf Party; reusable for
+      every event after it, including the Q4 launch event.</p>
+      <p class="outcome"><b>OUTCOME&nbsp;&mdash;&nbsp;</b>Pick the date and RSVPs open the same day. This one
+      already exists &mdash; we&rsquo;ll walk through it together at the table.</p>
+    </div>
+  </div>
+
+  <div class="solution">
+    <div class="idx">03</div>
+    <div>
+      <h3>The Talent Wire</h3>
+      <p class="problem"><b>THE PROBLEM&nbsp;&mdash;&nbsp;</b>A 500-person vetted talent network sits in a
+      spreadsheet while the operating plan budgets $8K rising to $55K a year for recruiting tools &mdash;
+      and the placement arm is set to launch with a commission pool but no product underneath it.</p>
+      <p class="build">A swipe-based matching wire for CPG talent: operators on one side, roles on the
+      other, curated the way the paper curates everything. Matching is single-sided by design &mdash; one
+      swipe from either side starts the introduction; no mutual-match wait.</p>
+      <p class="outcome"><b>OUTCOME&nbsp;&mdash;&nbsp;</b>The network becomes the placement arm&rsquo;s engine:
+      top-of-funnel for retained searches, powered by people who are already vouched for.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <hr class="hairline">
+    <p>Ocean Crest Ventures &mdash; Private Equity &middot; Real Estate &middot; AI Consulting</p>
+  </div>
+</section>
+
+<!-- ─────────────────────────── PAGE 3 ─────────────────────────── -->
+<section class="page">
+  <div class="solution" style="padding-top: 4px;">
+    <div class="idx">04</div>
+    <div>
+      <h3>The Reader</h3>
+      <p class="problem"><b>THE PROBLEM&nbsp;&mdash;&nbsp;</b>Roughly 3,800 subscribers read the paper by
+      email alone &mdash; 97,108 papers delivered across 83 sends, engagement four times the industry
+      benchmark &mdash; but there is no product to open in the morning and nothing to share except a
+      forward, while the founder&rsquo;s LinkedIn does a million views a year on its own.</p>
+      <p class="build">A newspaper-styled reader app: the daily CPG front page (the top-15 wire already
+      runs on the platform), DEALS episodes, and the JOBS board. Every article ships as a
+      <i>clipping</i> &mdash; a designed, shareable cut made for LinkedIn and iMessage.</p>
+      <p class="outcome"><b>OUTCOME&nbsp;&mdash;&nbsp;</b>Circulation becomes a product with a growth loop
+      built in &mdash; and the audience number every sponsorship rate is priced on starts compounding.</p>
+    </div>
+  </div>
+
+  <div class="solution">
+    <div class="idx">05</div>
+    <div>
+      <h3>The Sponsorship Desk</h3>
+      <p class="problem"><b>THE PROBLEM&nbsp;&mdash;&nbsp;</b>H2 carries a six-figure sellable inventory
+      &mdash; the Golf Party, the Summit, JOBS and DEALS placements, platform partnerships &mdash;
+      managed in one spreadsheet, sold conversation by conversation, with every deliverable promised
+      in a PDF and tracked from memory.</p>
+      <p class="build">A sponsorship desk on the platform: the inventory board with open and sold slots,
+      a sponsor pipeline from prospect to delivered, per-sponsor deliverable checklists &mdash; and a
+      gated media kit, where the circulation numbers do the selling from behind an email gate.</p>
+      <p class="outcome"><b>OUTCOME&nbsp;&mdash;&nbsp;</b>Sponsors self-serve into the pipeline, every
+      promise is tracked to delivery, and inventory stops leaking between conversations.</p>
+    </div>
+  </div>
+
+  <div class="solution">
+    <div class="idx">06</div>
+    <div>
+      <h3>The Quiet Growth Pages</h3>
+      <p class="problem"><b>THE PROBLEM&nbsp;&mdash;&nbsp;</b>The public site converts attention into
+      nothing structured: brand applications land in a form-response sheet, site traffic has grown
+      +367% year over year with 45% arriving direct &mdash; and there is still no path from that
+      attention to an LP conversation or a filed deal.</p>
+      <p class="build">Two unlisted pages and one wire: an invest page built 506(c)-clean &mdash;
+      accreditation self-certification, then the data room and a call &mdash; shared personally and never
+      placed in the navigation; and founder application 2.0, which files itself into the deal pipeline,
+      deck and all, the moment it is submitted.</p>
+      <p class="outcome"><b>OUTCOME&nbsp;&mdash;&nbsp;</b>Growth stops depending on memory. Every inbound
+      founder, reader, and prospective LP lands somewhere that compounds.</p>
+    </div>
+  </div>
+
+  <div class="strip">
+    <b>Already in place, as of this week&nbsp;&mdash;&nbsp;</b> the pipeline of record (every deal, priorities
+    restored, one board), brand files attached to every deal page, the whole operation readable from the
+    founder&rsquo;s existing Claude subscription through the platform connector, site applications wired
+    straight into the pipeline, and the events desk itself. The foundations the six systems above stand on.
+  </div>
+
+  <div class="footer">
+    <hr class="hairline">
+    <p>Ocean Crest Ventures &mdash; Private Equity &middot; Real Estate &middot; AI Consulting</p>
+  </div>
+</section>
+
+<!-- ─────────────────────────── PAGE 4 ─────────────────────────── -->
+<section class="page">
+  <h2>The route to November</h2>
+  <p class="section-note">Sequenced backward from the deadline that matters: Fund II&rsquo;s first close.</p>
+
+  <div class="timeline">
+    <div class="tl"><i></i><div class="m">AUG</div><p>Pipeline of record in daily use. The Golf Party live on the events desk.</p></div>
+    <div class="tl"><i></i><div class="m">SEP</div><p>The relaunch. The Chief of Staff onboards into the platform on day one. Reader beta.</p></div>
+    <div class="tl"><i></i><div class="m">OCT</div><p>The sponsorship desk opens on the H2 inventory. The Talent Wire enters beta.</p></div>
+    <div class="tl tl--end"><i></i><div class="m">NOV</div><p>Fund II first close on the onboarding rails &mdash; LPs board in a day.</p></div>
+  </div>
+
+  <h2 style="margin-top: 30px;">Decisions for Paperboy</h2>
+  <p class="section-note">Six choices that set the order of work &mdash; each one unblocks a system above.</p>
+  <div class="decisions">
+    <div class="decision"><div class="k">DECIDE</div><h4>Golf Party date &amp; venue</h4><p>The date is in no file we hold. RSVPs open the same day it&rsquo;s chosen.</p></div>
+    <div class="decision"><div class="k">DECIDE</div><h4>Reader: app or PWA first</h4><p>A PWA ships weeks sooner and installs from a link; a native app comes later.</p></div>
+    <div class="decision"><div class="k">DECIDE</div><h4>Talent Wire launch class</h4><p>Open with a curated Top 50, or the full 500-person network on day one.</p></div>
+    <div class="decision"><div class="k">DECIDE</div><h4>Media-kit gate</h4><p>Host the gated kit on paperboyventures.com, or inside the platform.</p></div>
+    <div class="decision"><div class="k">DECIDE</div><h4>Fund II pilot</h4><p>Run the corporate partnership&rsquo;s documents down the onboarding rail first, as the trial close.</p></div>
+    <div class="decision"><div class="k">DECIDE</div><h4>Sponsorship import</h4><p>Load the H2 tracker into the desk as-is, or reprice inventory first.</p></div>
+  </div>
+
+  <h2 style="margin-top: 30px;">Next steps</h2>
+  <ol class="steps">
+    <li><span class="n">01</span><p><b>Walk the working software.</b> The pipeline of record, the events desk, and the connector &mdash; live, at the table, on the operation&rsquo;s real data.</p></li>
+    <li><span class="n">02</span><p><b>Choose the order.</b> Which two systems start in August; the route above bends to the answer.</p></li>
+    <li><span class="n">03</span><p><b>Align priorities and terms together.</b> We return within the week with a sequenced build plan reflecting exactly what was decided here.</p></li>
+  </ol>
+
+  <div class="signoff">
+    We look forward to building this with you.
+    <div class="sig">&mdash; Eliyahu Cohen, Ocean Crest Ventures</div>
+  </div>
+
+  <div class="footer">
+    <hr class="hairline">
+    <p>Ocean Crest Ventures &mdash; Private Equity &middot; Real Estate &middot; AI Consulting<br>
+    info@oceancrestventures.com &middot; Prepared for Paperboy Ventures &mdash; private &amp; confidential.</p>
+  </div>
+</section>
+
+</body>
+</html>

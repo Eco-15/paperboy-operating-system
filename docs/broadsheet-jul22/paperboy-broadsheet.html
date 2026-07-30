@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Paperboy Times — Special Edition, July 22, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=UnifrakturCook:wght@700&display=swap">
+<style>
+  /* ═══════════════ THE PAPERBOY TIMES — print broadsheet ═══════════════
+     Tokens echo app/(site): cream #f4efe1, ink #15110c, bronze accent.   */
+  :root {
+    --paper:  #f4efe1;
+    --ink:    #15110c;
+    --ink-60: rgba(21, 17, 12, .6);
+    --ink-40: rgba(21, 17, 12, .4);
+    --bronze: #be812d;         /* hsl(35,62%,46%) — site --accent   */
+    --bronze-ink: #7d551c;     /* hsl(35,64%,30%) — site --accent-ink */
+    --display: "Playfair Display", Georgia, "Times New Roman", serif;
+    --body:    "Old Standard TT", Georgia, "Times New Roman", serif;
+    --meta:    "Courier Prime", "Courier New", monospace;
+    --black:   "UnifrakturCook", "Playfair Display", Georgia, serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    background: #57534b;
+    font-family: var(--body);
+    color: var(--ink);
+  }
+
+  /* ── The sheet ── */
+  .page {
+    width: 8.5in;
+    height: 11in;
+    margin: .35in auto;
+    padding: .34in .42in .28in;
+    background-color: var(--paper);
+    background-image: radial-gradient(rgba(21, 17, 12, .05) .5px, transparent .6px);
+    background-size: 3px 3px;
+    box-shadow: 0 14px 44px rgba(0, 0, 0, .4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  @page { size: letter portrait; margin: 0; }
+  @media print {
+    body { background: none; }
+    .page {
+      width: 8.5in;
+      height: 10.98in;      /* hair under 11in so rounding never spills a 3rd sheet */
+      margin: 0;
+      box-shadow: none;
+    }
+    .page--one { break-after: page; page-break-after: always; }
+  }
+
+  /* ── Ears / mast furniture ── */
+  .ears {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--meta);
+    font-size: 7.2pt;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    border-top: 1.6pt solid var(--ink);
+    border-bottom: .6pt solid var(--ink);
+    padding: 2.5pt 1pt;
+  }
+  .ears .star { color: var(--bronze-ink); letter-spacing: 0; }
+
+  .masthead {
+    font-family: var(--black);
+    font-weight: 700;
+    font-size: 46pt;
+    line-height: 1.02;
+    text-align: center;
+    margin: 5pt 0 3pt;
+  }
+  .masthead--small { font-size: 21pt; margin: 5pt 0 3pt; }
+
+  .mastline {
+    display: flex;
+    justify-content: center;
+    gap: 10pt;
+    font-family: var(--meta);
+    font-size: 6.8pt;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    border-top: .6pt solid var(--ink);
+    border-bottom: 1.6pt solid var(--ink);
+    padding: 2.5pt 0;
+  }
+  .mastline b { color: var(--ink); font-weight: 400; }
+
+  /* ── Thesis banner ── */
+  .banner {
+    text-align: center;
+    padding: 6pt 0 6pt;
+    border-bottom: 2.4pt double var(--ink);
+    margin-bottom: 7pt;
+  }
+  .banner h2 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 27pt;
+    line-height: 1.02;
+    letter-spacing: .015em;
+  }
+  .banner .deck {
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 11pt;
+    line-height: 1.3;
+    margin-top: 4pt;
+    color: rgba(21, 17, 12, .85);
+  }
+  .banner .tick {
+    width: 60pt;
+    height: 0;
+    border-top: 1.4pt solid var(--bronze);
+    margin: 3.5pt auto 0;
+  }
+
+  /* ── Story furniture ── */
+  .kicker {
+    font-family: var(--meta);
+    font-size: 6.9pt;
+    font-weight: 700;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--bronze-ink);
+    margin-bottom: 3pt;
+  }
+  .hl {
+    font-family: var(--display);
+    font-weight: 900;
+    line-height: 1.04;
+    letter-spacing: -.005em;
+    margin-bottom: 4pt;
+  }
+  .hl--lead { font-size: 21.5pt; }
+  .hl--col  { font-size: 14pt; }
+  .subdeck {
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 9.6pt;
+    line-height: 1.3;
+    margin-bottom: 5pt;
+    color: rgba(21, 17, 12, .85);
+  }
+  .copy {
+    font-size: 9.4pt;
+    line-height: 1.38;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+  .copy p + p { margin-top: 4pt; text-indent: 10pt; }
+  .copy .qt { font-style: italic; }
+
+  .drop::first-letter {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 29pt;
+    line-height: .78;
+    float: left;
+    padding: 2.5pt 3.5pt 0 0;
+  }
+
+  /* ── Page-one grids ── */
+  .top-grid {
+    display: grid;
+    grid-template-columns: 1fr 2.35in;
+    gap: 0 12pt;
+    padding-bottom: 6pt;
+    border-bottom: 2.4pt double var(--ink);
+    margin-bottom: 6pt;
+  }
+  .lead-cols { columns: 2; column-gap: 12pt; column-rule: .6pt solid var(--ink-40); }
+
+  .rail {
+    margin-top: 7pt;
+    border-top: .6pt solid var(--ink-40);
+    padding-top: 5pt;
+  }
+  .rail svg { width: 100%; height: auto; display: block; }
+  .rail-cap {
+    font-family: var(--meta);
+    font-size: 6.8pt;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    text-align: center;
+    margin-top: 2pt;
+  }
+
+  /* Route sidebar */
+  .route {
+    border: 1.5pt solid var(--ink);
+    outline: .6pt solid var(--ink);
+    outline-offset: 2pt;
+    padding: 7pt 8pt 6pt;
+    height: 100%;
+  }
+  .route h3 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 12.5pt;
+    text-align: center;
+    letter-spacing: .01em;
+    padding-bottom: 4pt;
+    margin-bottom: 5pt;
+    border-bottom: .6pt solid var(--ink);
+  }
+  .route .stop { padding: 3.5pt 0; border-bottom: .5pt dotted var(--ink-40); }
+  .route .stop:last-of-type { border-bottom: none; }
+  .route .mo {
+    font-family: var(--meta);
+    font-weight: 700;
+    font-size: 8pt;
+    letter-spacing: .16em;
+    color: var(--bronze-ink);
+  }
+  .route .what { font-size: 9pt; line-height: 1.3; }
+  .route .foot {
+    font-family: var(--meta);
+    font-size: 6.6pt;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-60);
+    border-top: .6pt solid var(--ink);
+    padding-top: 4pt;
+    margin-top: 4pt;
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 12pt;
+    flex: 1;
+  }
+  .story-grid > article + article { border-left: .6pt solid var(--ink-40); padding-left: 12pt; }
+
+  /* Agate stat table */
+  .agate { margin-top: 5pt; border-top: .6pt solid var(--ink); padding-top: 3pt; }
+  .agate .r {
+    display: flex;
+    align-items: baseline;
+    font-family: var(--meta);
+    font-size: 8pt;
+    line-height: 1.65;
+  }
+  .agate .r .lbl { letter-spacing: .06em; text-transform: uppercase; }
+  .agate .r .dots { flex: 1; border-bottom: 1px dotted var(--ink-40); margin: 0 3pt 2.5pt; }
+  .agate .r .val { font-weight: 700; }
+  .agate-cap {
+    font-family: var(--meta);
+    font-size: 6.6pt;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    margin-bottom: 1.5pt;
+  }
+
+  /* Quiet pages strip */
+  .quiet {
+    border: 1.5pt solid var(--ink);
+    outline: .6pt solid var(--ink);
+    outline-offset: 2pt;
+    margin: 8pt 2pt 6pt;
+    padding: 5pt 10pt;
+    display: flex;
+    gap: 10pt;
+    align-items: baseline;
+  }
+  .quiet .tag {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 11pt;
+    white-space: nowrap;
+  }
+  .quiet .txt { font-size: 9.2pt; line-height: 1.35; }
+
+  /* Folio */
+  .folio {
+    margin-top: auto;
+    font-family: var(--meta);
+    font-size: 7pt;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-60);
+    border-top: 1.6pt solid var(--ink);
+    padding-top: 3.5pt;
+  }
+  .folio b { color: var(--ink); font-weight: 400; }
+
+  /* ── Page two ── */
+  .wp-banner {
+    text-align: center;
+    padding: 7pt 0 7pt;
+    border-bottom: 2.4pt double var(--ink);
+    margin-bottom: 9pt;
+  }
+  .wp-banner h2 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 24pt;
+    line-height: 1.03;
+  }
+  .wp-banner .deck {
+    font-style: italic;
+    font-size: 10.5pt;
+    margin-top: 3pt;
+    color: rgba(21, 17, 12, .85);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.08fr 1fr;
+    gap: 0 12pt;
+    flex: 1;
+  }
+  .work-grid > section { display: flex; flex-direction: column; }
+  .work-grid > section + section { border-left: .6pt solid var(--ink-40); padding-left: 12pt; }
+  .work-grid .ornament, .work-grid .notice { margin-top: auto; }
+  .work-grid .notice { margin-bottom: 2pt; }
+  .colhead {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 13pt;
+    text-align: center;
+    letter-spacing: .01em;
+    border-top: 1.6pt solid var(--ink);
+    border-bottom: .6pt solid var(--ink);
+    padding: 4pt 0;
+    margin-bottom: 7pt;
+  }
+  .colhead .chk { color: var(--bronze-ink); }
+
+  .ship { list-style: none; }
+  .ship li {
+    font-size: 10.2pt;
+    line-height: 1.42;
+    padding: 7pt 0 7.5pt 14pt;
+    position: relative;
+    border-bottom: .5pt dotted var(--ink-40);
+  }
+  .ship li:last-child { border-bottom: none; }
+  .ship li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 6.5pt;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 11pt;
+    color: var(--bronze-ink);
+  }
+  .ship b { font-weight: 700; }
+
+  .seq .row { padding: 7pt 0 7.5pt; border-bottom: .5pt dotted var(--ink-40); }
+  .seq .row:last-of-type { border-bottom: none; }
+  .seq .mo {
+    font-family: var(--meta);
+    font-weight: 700;
+    font-size: 8.6pt;
+    letter-spacing: .16em;
+    color: var(--bronze-ink);
+  }
+  .seq .work { font-size: 10.2pt; line-height: 1.36; margin: 1.5pt 0 3pt; }
+  .seq .meta {
+    font-family: var(--meta);
+    font-size: 7.8pt;
+    line-height: 1.55;
+    letter-spacing: .02em;
+    color: rgba(21, 17, 12, .78);
+  }
+  .seq .meta .k { font-weight: 700; letter-spacing: .1em; }
+
+  .notice {
+    border: 1pt solid var(--ink);
+    padding: 5pt 7pt 6pt;
+    margin-top: 8pt;
+    text-align: center;
+  }
+  .notice .nh {
+    font-family: var(--meta);
+    font-weight: 700;
+    font-size: 7.2pt;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin-bottom: 2.5pt;
+  }
+  .notice .nb { font-size: 8.8pt; font-style: italic; line-height: 1.35; }
+
+  .dec { list-style: none; }
+  .dec li {
+    font-size: 10.2pt;
+    line-height: 1.4;
+    padding: 7pt 0 7.5pt 16pt;
+    position: relative;
+    border-bottom: .5pt dotted var(--ink-40);
+  }
+  .dec li:last-child { border-bottom: none; }
+  .dec li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8.2pt;
+    width: 7.5pt;
+    height: 7.5pt;
+    border: 1pt solid var(--ink);
+  }
+  .dec b { font-weight: 700; }
+  .dec .why { font-style: italic; color: rgba(21, 17, 12, .8); }
+
+  .ornament {
+    text-align: center;
+    font-size: 11pt;
+    color: var(--bronze-ink);
+    margin: 6pt 0 2pt;
+  }
+
+  /* House notes strip */
+  .house {
+    border-top: 2.4pt double var(--ink);
+    margin-top: 9pt;
+    padding-top: 5pt;
+  }
+  .house h3 {
+    font-family: var(--meta);
+    font-weight: 700;
+    font-size: 8pt;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 5pt;
+  }
+  .house .cells { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 10pt; }
+  .house .cell + .cell { border-left: .6pt solid var(--ink-40); padding-left: 10pt; }
+  .house .num {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 9.5pt;
+    margin-bottom: 1pt;
+  }
+  .house .cell p { font-size: 9pt; line-height: 1.34; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ PAGE ONE ═══════════════════════════ -->
+<div class="page page--one">
+
+  <div class="ears">
+    <span>Special Edition</span>
+    <span><span class="star">★&thinsp;★&thinsp;★</span>&ensp;Wednesday, July 22, 2026&ensp;<span class="star">★&thinsp;★&thinsp;★</span></span>
+    <span>Norwalk, Conn.</span>
+  </div>
+
+  <h1 class="masthead">The Paperboy Times</h1>
+
+  <div class="mastline">
+    <span>Vol. I — No. 22</span><span>·</span>
+    <span><b>Paperboy Ventures, Publisher</b></span><span>·</span>
+    <span>Founded on a Paper Route</span><span>·</span>
+    <span>Two Pages</span>
+  </div>
+
+  <div class="banner">
+    <h2>THE CPG OPERATING SYSTEM</h2>
+    <p class="deck">One platform where founders apply, investors commit, talent matches, and readers subscribe.</p>
+    <div class="tick"></div>
+  </div>
+
+  <!-- Lead story + Route sidebar -->
+  <div class="top-grid">
+    <article>
+      <div class="kicker">The Fund Desk · First in a Series</div>
+      <h3 class="hl hl--lead">A NEW FUND ONBOARDS IN A DAY</h3>
+      <p class="subdeck">Fund II&rsquo;s first close lands in November — on rails built this fall.</p>
+      <div class="copy lead-cols">
+        <p class="drop">The slowest part of running a fund was never the investing; it was the paperwork between a handshake and a wire. The Operating System collapses it into a single rail: an LP receives an invitation, completes the accreditation questionnaire, signs the documents, is verified, countersigned, and funded — each step stamped, dated, and visible from the fund desk. Capital calls run on the same ledger, and side-letter obligations surface themselves: the two co-invest offers owed each year appear on the docket before they come due, not after. Compliance moves from &ldquo;TBD&rdquo; to built-in.</p>
+        <p>The timing is deliberate. Fund II&rsquo;s first close is set for November, and an incoming corporate fund partnership — up to $250K per deal, roughly 10 deals over 12 months — will board on the same rail as any other investor. The back office replaces $22–55K a year in fund-administration tooling; the machinery is the story, and the close is the deadline.</p>
+      </div>
+      <div class="rail">
+        <svg viewBox="0 0 520 46" role="img" aria-label="The onboarding rail: LP invite, accreditation, docs, verified, countersigned, funded">
+          <line x1="14" y1="14" x2="506" y2="14" stroke="#15110c" stroke-width="1"/>
+          <!-- ticks between stations -->
+          <g stroke="#15110c" stroke-width="1">
+            <path d="M60 11 l5 3 -5 3" fill="none"/><path d="M158 11 l5 3 -5 3" fill="none"/>
+            <path d="M256 11 l5 3 -5 3" fill="none"/><path d="M354 11 l5 3 -5 3" fill="none"/>
+            <path d="M452 11 l5 3 -5 3" fill="none"/>
+          </g>
+          <g stroke="#15110c" stroke-width="1.2" fill="#f4efe1">
+            <circle cx="14"  cy="14" r="4.5"/>
+            <circle cx="112" cy="14" r="4.5"/>
+            <circle cx="210" cy="14" r="4.5"/>
+            <circle cx="308" cy="14" r="4.5"/>
+            <circle cx="406" cy="14" r="4.5"/>
+            <circle cx="506" cy="14" r="5" fill="#be812d"/>
+          </g>
+          <g font-family="Courier Prime, Courier New, monospace" font-size="7.6" fill="#15110c" text-anchor="middle" letter-spacing=".5">
+            <text x="2"   y="34" text-anchor="start">LP INVITE</text>
+            <text x="112" y="34">ACCREDITATION</text>
+            <text x="210" y="34">DOCS</text>
+            <text x="308" y="34">VERIFIED</text>
+            <text x="406" y="34">COUNTERSIGNED</text>
+            <text x="518" y="34" text-anchor="end" font-weight="700">FUNDED</text>
+          </g>
+        </svg>
+        <div class="rail-cap">The onboarding rail — the fund desk watches every stamp.</div>
+      </div>
+    </article>
+
+    <aside class="route">
+      <h3>THE ROUTE TO NOVEMBER</h3>
+      <div class="stop"><div class="mo">AUG</div><div class="what">The pipeline of record; the Golf Party goes live on the OS.</div></div>
+      <div class="stop"><div class="mo">SEP</div><div class="what">The relaunch; the Chief of Staff onboards day one.</div></div>
+      <div class="stop"><div class="mo">OCT</div><div class="what">The sponsorship desk opens; the Talent Wire enters beta.</div></div>
+      <div class="stop"><div class="mo">NOV</div><div class="what">Fund II first close — on OS rails.</div></div>
+      <div class="foot">Clip and keep · Full schedule, page two</div>
+    </aside>
+  </div>
+
+  <!-- Three-column row -->
+  <div class="story-grid">
+    <article>
+      <div class="kicker">The Events Desk</div>
+      <h3 class="hl hl--col">GOLF PARTY RUNS ITSELF</h3>
+      <div class="copy">
+        <p>This fall&rsquo;s Invitational Golf Party will be managed end to end on the Operating System: RSVP to approvals to check-in, foursomes drawn, a live scorecard posted, sponsor deliverables tracked to the letter. The spring Invitational already ran its poker tally on the same machine; the fall outing simply hands it the whole tournament.</p>
+        <p>The sponsor book is set — <span class="qt">&ldquo;$20,000 title slot, three $8,000 partner slots — deliverables tracked to the letter&rdquo;</span> — every promise itemized, every item checked off as it ships. The moment a date is picked, RSVPs open the same day.</p>
+      </div>
+    </article>
+
+    <article>
+      <div class="kicker">Situations Wanted</div>
+      <h3 class="hl hl--col">THE TALENT WIRE</h3>
+      <div class="copy">
+        <p>Hiring in CPG runs on introductions, and introductions run on timing. The Talent Wire puts both on rails: founders swipe through a wire of operators, and a single swipe starts the intro. <span class="qt">It only takes one.</span></p>
+        <p>The launch class is 500 vetted operators — brand builders, supply-chain hands, growth leads — selected the way the paper selects everything else: curated, not scraped. Matches land as introductions, in writing, the way good hires have always started.</p>
+      </div>
+    </article>
+
+    <article>
+      <div class="kicker">Circulation</div>
+      <h3 class="hl hl--col">EXTRA! EXTRA! THE READER</h3>
+      <div class="copy">
+        <p>The subscriber app puts the paper in every pocket: a daily CPG front page, DEALS, JOBS — and every article ships as a clipping made to be passed along. Circulation is already the proof.</p>
+      </div>
+      <div class="agate">
+        <div class="agate-cap">By the numbers</div>
+        <div class="r"><span class="lbl">Subscribers</span><span class="dots"></span><span class="val">3,800</span></div>
+        <div class="r"><span class="lbl">Papers delivered</span><span class="dots"></span><span class="val">97,108</span></div>
+        <div class="r"><span class="lbl">Engagement</span><span class="dots"></span><span class="val">4× industry</span></div>
+        <div class="r"><span class="lbl">Site traffic</span><span class="dots"></span><span class="val">+367% YoY</span></div>
+        <div class="r"><span class="lbl">Direct readership</span><span class="dots"></span><span class="val">45%</span></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="quiet">
+    <span class="tag">THE QUIET PAGES</span>
+    <span class="txt">Two pages never appear in the nav. The media kit is gated — sponsors request it, and the numbers do the selling. The invest page is unlisted and 506(c)-ready, shared personally, one hand to another. The loudest pages in the business are the quiet ones.</span>
+  </div>
+
+  <div class="folio"><b>Paperboy Ventures</b> · paperboyventures.com · printed on the Paperboy Operating System</div>
+</div>
+
+<!-- ═══════════════════════════ PAGE TWO ═══════════════════════════ -->
+<div class="page page--two">
+
+  <div class="ears">
+    <span>Page Two</span>
+    <span><span class="star">★</span>&ensp;Wednesday, July 22, 2026&ensp;<span class="star">★</span></span>
+    <span>The Working Pages</span>
+  </div>
+
+  <h1 class="masthead masthead--small">The Paperboy Times</h1>
+
+  <div class="wp-banner">
+    <h2>THE WORKING PAGES</h2>
+    <p class="deck">What shipped, what comes next, and what the publisher decides at this meeting.</p>
+  </div>
+
+  <div class="work-grid">
+    <section>
+      <h3 class="colhead">SHIPPED THIS WEEK <span class="chk">✓</span></h3>
+      <ul class="ship">
+        <li><b>Investment CRM rebuilt as the pipeline of record.</b> Every deal in one place, sortable by priority, unrated deals flagged for review.</li>
+        <li><b>Brand Library folded into deal files.</b> Merged, not died — every clipping now lives with its deal.</li>
+        <li><b>Claude connected to the OS through the connector.</b> Chat with the whole business from the subscription — no per-token bill.</li>
+        <li><b>Squarespace applications wired straight into the pipeline.</b> A founder applies; the pipeline updates itself.</li>
+        <li><b>Events desk built.</b> The Golf Party can open RSVPs the day a date is picked.</li>
+      </ul>
+      <div class="ornament">❦</div>
+    </section>
+
+    <section>
+      <h3 class="colhead">IN SEQUENCE</h3>
+      <div class="seq">
+        <div class="row">
+          <div class="mo">AUGUST</div>
+          <div class="work">Pipeline of record in daily use; the Golf Party live on the OS.</div>
+          <div class="meta"><span class="k">OWNER</span> — E. Cohen &nbsp;·&nbsp; <span class="k">OUTCOME</span> — every live deal tracked; RSVPs open the day the date is set.</div>
+        </div>
+        <div class="row">
+          <div class="mo">SEPTEMBER</div>
+          <div class="work">The relaunch; the Chief of Staff onboards day one.</div>
+          <div class="meta"><span class="k">OWNER</span> — K. Fitzpatrick &nbsp;·&nbsp; <span class="k">OUTCOME</span> — the new hire runs the paper from the OS on their first morning.</div>
+        </div>
+        <div class="row">
+          <div class="mo">OCTOBER</div>
+          <div class="work">The sponsorship desk opens; the Talent Wire enters beta.</div>
+          <div class="meta"><span class="k">OWNER</span> — Chief of Staff &nbsp;·&nbsp; <span class="k">OUTCOME</span> — H2 inventory sold from the desk; the first swipes become intros.</div>
+        </div>
+        <div class="row">
+          <div class="mo">NOVEMBER</div>
+          <div class="work">Fund II first close on OS rails.</div>
+          <div class="meta"><span class="k">OWNER</span> — K. Fitzpatrick &nbsp;·&nbsp; <span class="k">OUTCOME</span> — LPs onboard in a day; capital calls and side letters tracked from close.</div>
+        </div>
+      </div>
+      <div class="notice">
+        <div class="nh">Notice to Readers</div>
+        <div class="nb">The Working Pages are printed for one reader. Objections and amendments will be accepted at tomorrow&rsquo;s meeting and set in the next edition.</div>
+      </div>
+    </section>
+
+    <section>
+      <h3 class="colhead">DECISIONS FOR THE PUBLISHER</h3>
+      <ul class="dec">
+        <li><b>Golf Party date &amp; venue.</b> <span class="why">RSVPs open the same day.</span></li>
+        <li><b>The Reader app:</b> PWA first? <span class="why">Ship to every pocket without the app-store wait.</span></li>
+        <li><b>Talent Wire launch class size.</b> Top 50? <span class="why">Small enough to curate by hand.</span></li>
+        <li><b>Media kit gate:</b> on whose domain? <span class="why">The paper&rsquo;s, or the fund&rsquo;s.</span></li>
+        <li><b>Fund II onboarding:</b> pilot with Shopline fund docs when ready. <span class="why">Real documents, dress rehearsal.</span></li>
+        <li><b>Sponsorship desk:</b> import the H2 inventory as-is? <span class="why">Sell from the desk on day one.</span></li>
+      </ul>
+      <div class="ornament">❦</div>
+    </section>
+  </div>
+
+  <div class="house">
+    <h3>House Notes — Running Order</h3>
+    <div class="cells">
+      <div class="cell">
+        <div class="num">I. HOUSEKEEPING</div>
+        <p>The demo, live data: pipeline of record, deal files, Brand Library in place. Ten minutes.</p>
+      </div>
+      <div class="cell">
+        <div class="num">II. THE GOLF WALK-THROUGH</div>
+        <p>RSVP to live scorecard on screen. Pick the date; watch invitations open.</p>
+      </div>
+      <div class="cell">
+        <div class="num">III. THE VISION PAGES</div>
+        <p>This front page, read together: the fund rail, the Talent Wire, the Reader.</p>
+      </div>
+      <div class="cell">
+        <div class="num">IV. DECISIONS</div>
+        <p>Six items, column three. Ink them before the meeting ends.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="folio"><b>Paperboy Ventures</b> · paperboyventures.com · printed on the Paperboy Operating System</div>
+</div>
+
+</body>
+</html>

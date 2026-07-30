@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paperboy Poker Tournament</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Ubuntu+Mono:wght@400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --white-hsl: 0,0%,98.04%;
+      --black-hsl: 0,0%,0%;
+      --accent-hsl: 46.15,26.53%,90.39%;
+      --lightAccent-hsl: 0,0%,100%;
+      --darkAccent-hsl: 0,0%,10.98%;
+
+      --bg: hsla(var(--accent-hsl),1);
+      --surface: hsla(var(--lightAccent-hsl),1);
+      --black: hsla(var(--black-hsl),1);
+      --white: hsla(var(--white-hsl),1);
+      --border: hsla(var(--black-hsl),1);
+      --muted: hsla(var(--black-hsl),.45);
+
+      --heading-font: "IBM Plex Mono", monospace;
+      --body-font: "adelle-sans", Georgia, serif;
+      --meta-font: "Ubuntu Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--black);
+      font-family: var(--body-font);
+      font-weight: 300;
+      font-size: 16px;
+      letter-spacing: .01em;
+      line-height: 1.6em;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 40px 0;
+      display: flex;
+      align-items: flex-end;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .header-title { padding-bottom: 20px; display: flex; align-items: center; gap: 20px; }
+
+    .header-logo {
+      height: 64px;
+      width: auto;
+      display: block;
+    }
+
+    header h1 {
+      font-family: var(--heading-font);
+      font-weight: 400;
+      font-size: 2.6rem;
+      letter-spacing: -.04em;
+      line-height: 1.4em;
+      color: var(--black);
+    }
+
+    .subtitle {
+      font-family: var(--meta-font);
+      font-size: 1.1rem;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    /* ── TABS ── */
+    nav { display: flex; align-self: flex-end; }
+
+    .tab {
+      font-family: var(--meta-font);
+      font-size: .9rem;
+      color: var(--muted);
+      padding: 12px 24px;
+      cursor: pointer;
+      border-top: 2px solid transparent;
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+      letter-spacing: 0;
+      user-select: none;
+      position: relative;
+      top: 1px;
+      background: transparent;
+      transition: color .15s;
+    }
+
+    .tab:hover { color: var(--black); }
+
+    .tab.active {
+      color: var(--black);
+      background: var(--bg);
+      border-top-color: var(--border);
+      border-left-color: var(--border);
+      border-right-color: var(--border);
+      border-bottom: 1px solid var(--bg);
+    }
+
+    /* ── STATUS ── */
+    .status-bar {
+      padding: 6px 40px;
+      font-family: var(--meta-font);
+      font-size: .8rem;
+      color: var(--muted);
+      border-bottom: 1px solid hsla(var(--black-hsl),.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .seed-btns { display: flex; gap: 12px; flex-shrink: 0; }
+
+    .seed-btn {
+      font-family: var(--meta-font);
+      font-size: .78rem;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .seed-btn:hover { color: var(--black); }
+
+    /* ── STATS BAR ── */
+    .stats-bar { display: flex; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+
+    .stat { padding: 20px 40px; border-right: 1px solid var(--border); min-width: 160px; }
+    .stat:last-child { border-right: none; }
+
+    .stat-label { font-family: var(--meta-font); font-size: .9rem; color: var(--muted); }
+
+    .stat-value {
+      font-family: var(--heading-font);
+      font-size: 2.6rem;
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: 1.2;
+      color: var(--black);
+      margin-top: 2px;
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── TABLE ── */
+    .panel-header {
+      padding: 16px 40px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--meta-font);
+      font-size: .9rem;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .search-bar { padding: 14px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 20px; }
+
+    .search-bar input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--black);
+      padding: 6px 0;
+      font-family: var(--heading-font);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-bar input::placeholder { color: var(--muted); font-family: var(--meta-font); font-size: .9rem; }
+    .search-bar input:focus { border-bottom-color: var(--black); }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead th {
+      padding: 10px 16px;
+      font-family: var(--meta-font);
+      font-size: .9rem;
+      color: var(--muted);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    thead th:first-child { padding-left: 40px; }
+    thead th:last-child { padding-right: 40px; }
+    thead th:hover { color: var(--black); }
+    thead th.sorted { color: var(--black); }
+    thead th .sort-arrow { margin-left: 4px; opacity: .5; font-style: normal; }
+
+    tbody tr {
+      border-bottom: 1px solid hsla(var(--black-hsl),.1);
+      transition: background .1s;
+      cursor: pointer;
+    }
+
+    tbody tr:hover { background: hsla(var(--black-hsl),.06); }
+    tbody tr:last-child { border-bottom: none; }
+
+    td { padding: 12px 16px; font-size: .9rem; }
+    td:first-child { padding-left: 40px; }
+    td:last-child { padding-right: 40px; }
+
+    .rank { font-family: var(--meta-font); color: var(--muted); width: 36px; }
+    .rank.top1 { color: var(--black); font-weight: 700; }
+
+    .player-name {
+      font-family: var(--heading-font);
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: -.04em;
+      color: var(--black);
+    }
+
+    .company { font-family: var(--meta-font); font-size: .9rem; color: var(--muted); margin-top: 2px; }
+
+    .votes {
+      font-family: var(--heading-font);
+      font-size: 1.3rem;
+      letter-spacing: -.04em;
+      color: var(--black);
+      text-align: right;
+    }
+
+    .pct { font-family: var(--meta-font); font-size: .9rem; text-align: right; color: var(--muted); }
+
+    .bar-wrap { width: 72px; }
+    .bar-bg { height: 2px; background: hsla(var(--black-hsl),.12); }
+    .bar-fill { height: 100%; background: var(--black); transition: width .4s ease; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: hsla(var(--black-hsl),.55);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 520px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 24px 28px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .modal-header h2 {
+      font-family: var(--heading-font);
+      font-weight: 400;
+      font-size: 1.6rem;
+      letter-spacing: -.04em;
+    }
+
+    .modal-total {
+      font-family: var(--heading-font);
+      font-size: 2rem;
+      letter-spacing: -.04em;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .modal-total-label {
+      font-family: var(--meta-font);
+      font-size: .75rem;
+      color: var(--muted);
+      text-align: right;
+      margin-bottom: 2px;
+    }
+
+    .modal-header .modal-company {
+      font-family: var(--meta-font);
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .modal-scroll { overflow-y: auto; flex: 1; }
+
+    /* history */
+    .modal-history {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-history-label {
+      font-family: var(--meta-font);
+      font-size: .8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .history-empty {
+      font-family: var(--meta-font);
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    .history-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid hsla(var(--black-hsl),.08);
+      gap: 10px;
+    }
+
+    .history-entry:last-child { border-bottom: none; }
+
+    .history-left { display: flex; flex-direction: column; gap: 1px; }
+
+    .history-caster {
+      font-family: var(--heading-font);
+      font-size: .95rem;
+      letter-spacing: -.04em;
+    }
+
+    .history-time {
+      font-family: var(--meta-font);
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    .history-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+    .history-delta {
+      font-family: var(--heading-font);
+      font-size: 1.2rem;
+      letter-spacing: -.04em;
+      color: var(--black);
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--meta-font);
+      font-size: .8rem;
+      color: var(--muted);
+      padding: 2px 6px;
+      transition: color .15s;
+    }
+
+    .remove-btn:hover { color: #8b0000; }
+
+    .modal-body { padding: 20px 28px; display: flex; flex-direction: column; gap: 18px; flex-shrink: 0; }
+
+    .field label {
+      display: block;
+      font-family: var(--meta-font);
+      font-size: .8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--black);
+      padding: 6px 0;
+      font-family: var(--heading-font);
+      font-size: 1.3rem;
+      letter-spacing: -.04em;
+      outline: none;
+    }
+
+    .field input:focus { border-bottom-width: 2px; }
+
+    .modal-footer {
+      padding: 14px 28px 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .btn {
+      font-family: var(--heading-font);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 8px 22px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+
+    .btn-primary { background: var(--black); color: var(--white); }
+    .btn-ghost { background: transparent; color: var(--black); }
+    .btn:hover { opacity: .7; }
+
+    /* ── ANALYTICS ── */
+    .analytics-page { padding: 40px; }
+
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
+
+    .chart-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .chart-section h3 {
+      font-family: var(--meta-font);
+      font-size: .9rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-family: var(--meta-font);
+      font-size: .9rem;
+    }
+
+    .no-data .icon {
+      font-family: var(--heading-font);
+      font-size: 3rem;
+      letter-spacing: -.04em;
+      display: block;
+      margin-bottom: 10px;
+      color: hsla(var(--black-hsl),.15);
+    }
+
+    /* ── VOTE LOG ── */
+    .log-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 10px 0;
+      border-bottom: 1px solid hsla(var(--black-hsl),.1);
+      gap: 12px;
+    }
+
+    .log-entry:last-child { border-bottom: none; }
+
+    .log-left { display: flex; flex-direction: column; gap: 2px; }
+
+    .log-player {
+      font-family: var(--heading-font);
+      font-size: 1rem;
+      letter-spacing: -.04em;
+    }
+
+    .log-caster { font-family: var(--meta-font); font-size: .8rem; color: var(--muted); }
+
+    .log-right { text-align: right; flex-shrink: 0; }
+
+    .log-delta {
+      font-family: var(--heading-font);
+      font-size: 1.3rem;
+      letter-spacing: -.04em;
+    }
+
+    .log-delta.pos { color: #1a7a1a; }
+    .log-delta.neg { color: #8b0000; }
+
+    .log-time { font-family: var(--meta-font); font-size: .8rem; color: var(--muted); }
+
+    .empty-log { font-family: var(--meta-font); font-size: .9rem; color: var(--muted); padding: 20px 0; }
+
+    .log-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+    /* ── ELIMINATION ── */
+    .row-eliminated td { opacity: .3; }
+    .row-eliminated .player-name { text-decoration: line-through; }
+
+    .out-badge {
+      display: inline-block;
+      font-family: var(--meta-font);
+      font-size: .65rem;
+      color: #8b0000;
+      border: 1px solid #8b0000;
+      padding: 1px 5px;
+      letter-spacing: .05em;
+      vertical-align: middle;
+      margin-left: 8px;
+      line-height: 1.4;
+    }
+
+    .btn-danger { background: #8b0000; color: #fff; border-color: #8b0000; }
+    .btn-danger:hover { opacity: .75; }
+    .btn-reinstate { background: transparent; color: #1a7a1a; border-color: #1a7a1a; }
+    .btn-reinstate:hover { opacity: .75; }
+
+    .elim-toggle {
+      font-family: var(--meta-font);
+      font-size: .78rem;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .elim-toggle:hover { color: var(--black); }
+
+    .add-player-btn {
+      font-family: var(--meta-font);
+      font-size: .82rem;
+      color: var(--black);
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0;
+    }
+    .add-player-btn:hover { opacity: .75; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    <img class="header-logo" src="https://images.squarespace-cdn.com/content/v1/6585e7cf9929135ae34643f2/1fbba9f9-9d7b-4489-99fb-28ecf82c4667/logo_swissbackground_2.6.25.png?format=1000w" alt="Paperboy" />
+    <div>
+      <h1>Poker Tournament</h1>
+      <span class="subtitle">Live Vote Tally</span>
+    </div>
+  </div>
+  <nav>
+    <div class="tab active" onclick="switchTab('leaderboard', this)">Leaderboard</div>
+    <div class="tab" onclick="switchTab('analytics', this)">Analytics</div>
+  </nav>
+</header>
+
+<div class="status-bar">
+  <span id="statusBar">&nbsp;</span>
+  <div class="seed-btns">
+    <button class="elim-toggle" id="elimToggle" onclick="toggleEliminated()">hide eliminated</button>
+    <button class="seed-btn" onclick="seedTestData()">seed test data</button>
+    <button class="seed-btn" onclick="clearTestData()">clear test data</button>
+  </div>
+</div>
+<div class="stats-bar" id="statsBar"></div>
+
+<!-- LEADERBOARD PAGE -->
+<div class="page active" id="page-leaderboard">
+  <div class="search-bar">
+    <input id="search" type="text" placeholder="Search player or company..." oninput="renderTable()" />
+    <button class="add-player-btn" onclick="openAddPlayer()">+ Add Player</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th id="th-name" onclick="sortBy('name')" style="cursor:pointer">Player</th>
+        <th id="th-votes" onclick="sortBy('votes')" style="cursor:pointer;text-align:right">Votes</th>
+        <th id="th-pct" onclick="sortBy('pct')" style="cursor:pointer;text-align:right">%</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<!-- ANALYTICS PAGE -->
+<div class="page" id="page-analytics">
+  <div class="analytics-page">
+    <div class="charts-row">
+      <div class="chart-section" style="margin-bottom:0">
+        <h3>Top 10 — Vote Distribution</h3>
+        <canvas id="barChart"></canvas>
+        <div class="no-data" id="noDataBar" style="display:none">
+          <span class="icon">[ ]</span>No votes cast yet.
+        </div>
+      </div>
+      <div class="chart-section" style="margin-bottom:0">
+        <h3>Vote Share</h3>
+        <canvas id="pieChart" style="max-height:320px"></canvas>
+        <div class="no-data" id="noDataPie" style="display:none">
+          <span class="icon">[ ]</span>No votes cast yet.
+        </div>
+      </div>
+    </div>
+    <div class="chart-section">
+      <h3>Vote Log</h3>
+      <div id="voteLog"><div class="empty-log">No votes logged yet.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PLAYER MODAL -->
+<div class="modal-overlay" id="addPlayerOverlay" onclick="closeAddPlayer(event)">
+  <div class="modal" id="addPlayerModal">
+    <div class="modal-header">
+      <div class="modal-header-top">
+        <div>
+          <h2>Add Player</h2>
+          <div class="modal-company">New tournament entry</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Player Name</label>
+        <input id="addName" type="text" placeholder="Full name" />
+      </div>
+      <div class="field">
+        <label>Company</label>
+        <input id="addCompany" type="text" placeholder="Company or fund" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeAddPlayer()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitAddPlayer()">Add Player</button>
+    </div>
+  </div>
+</div>
+
+<!-- VOTE MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-header-top">
+        <div>
+          <h2 id="modalName"></h2>
+          <div class="modal-company" id="modalCompany"></div>
+        </div>
+        <div>
+          <div class="modal-total-label">Total Votes</div>
+          <div class="modal-total" id="modalTotal">0</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-scroll">
+      <div class="modal-history">
+        <div class="modal-history-label">Vote History</div>
+        <div id="modalHistory"></div>
+      </div>
+      <div class="modal-body">
+        <div class="field">
+          <label>Votes to Add</label>
+          <input id="inputVotes" type="number" min="1" placeholder="0" />
+        </div>
+        <div class="field">
+          <label>Voted by</label>
+          <input id="inputCaster" type="text" placeholder="Name of voter" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn" id="btnEliminate" onclick="toggleEliminate()" style="margin-right:auto">Eliminate</button>
+      <button class="btn btn-primary" onclick="submitVote()">Log Vote</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CSV_PATH = 'vote-tally.csv';
+  let players = [];
+  let csvBaselines = {};   // { [name]: votes from csv }
+  let sortKey = 'votes';
+  let sortDir = -1;
+  let barChart = null;
+  let pieChart = null;
+  let pollTimer = null;
+  let activePlayer = null;
+
+  // Custom players added via UI
+  let customPlayers = JSON.parse(localStorage.getItem('customPlayers') || '[]');
+
+  function openAddPlayer() {
+    document.getElementById('addName').value = '';
+    document.getElementById('addCompany').value = '';
+    document.getElementById('addPlayerOverlay').classList.add('open');
+    setTimeout(() => document.getElementById('addName').focus(), 50);
+  }
+
+  function closeAddPlayer(e) {
+    if (e && e.target !== document.getElementById('addPlayerOverlay')) return;
+    document.getElementById('addPlayerOverlay').classList.remove('open');
+  }
+
+  function submitAddPlayer() {
+    const name = document.getElementById('addName').value.trim();
+    const company = document.getElementById('addCompany').value.trim();
+    if (!name) { document.getElementById('addName').focus(); return; }
+    if (!company) { document.getElementById('addCompany').focus(); return; }
+    // Prevent duplicates
+    const allNames = [...players.map(p => p.name.toLowerCase()), ...customPlayers.map(p => p.name.toLowerCase())];
+    if (allNames.includes(name.toLowerCase())) {
+      document.getElementById('addName').select();
+      return;
+    }
+    customPlayers.push({ name, company });
+    localStorage.setItem('customPlayers', JSON.stringify(customPlayers));
+    document.getElementById('addPlayerOverlay').classList.remove('open');
+    applyOverrides();
+    render();
+  }
+
+  // Eliminated players
+  let eliminated = new Set(JSON.parse(localStorage.getItem('eliminatedPlayers') || '[]'));
+  let showEliminated = true;
+
+  function saveEliminated() {
+    localStorage.setItem('eliminatedPlayers', JSON.stringify([...eliminated]));
+  }
+
+  function toggleEliminate() {
+    if (!activePlayer) return;
+    if (eliminated.has(activePlayer.name)) {
+      eliminated.delete(activePlayer.name);
+    } else {
+      eliminated.add(activePlayer.name);
+    }
+    saveEliminated();
+    updateEliminateBtn();
+    render();
+  }
+
+  function updateEliminateBtn() {
+    const btn = document.getElementById('btnEliminate');
+    if (!activePlayer || !btn) return;
+    const isElim = eliminated.has(activePlayer.name);
+    btn.textContent = isElim ? 'Reinstate' : 'Eliminate';
+    btn.className = 'btn ' + (isElim ? 'btn-reinstate' : 'btn-danger');
+  }
+
+  function toggleEliminated() {
+    showEliminated = !showEliminated;
+    document.getElementById('elimToggle').textContent = showEliminated ? 'hide eliminated' : 'show eliminated';
+    renderTable();
+  }
+
+  // Overrides: { [name]: totalVotes }
+  let overrides = JSON.parse(localStorage.getItem('voteOverrides') || '{}');
+  // Log: [{ id, ts, playerName, company, delta, newTotal, caster }]
+  let voteLog = JSON.parse(localStorage.getItem('voteLog') || '[]');
+  // Migrate any old entries missing an id
+  voteLog = voteLog.map(e => e.id ? e : { ...e, id: Date.now() + '-' + Math.random().toString(36).slice(2) });
+  localStorage.setItem('voteLog', JSON.stringify(voteLog));
+
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('page-' + name).classList.add('active');
+    if (name === 'analytics') { renderCharts(); renderLog(); }
+  }
+
+  // ── CSV ──
+  async function loadCSV() {
+    try {
+      const res = await fetch(CSV_PATH + '?t=' + Date.now());
+      if (!res.ok) throw new Error(res.statusText);
+      const text = await res.text();
+      players = parseCSV(text);
+      applyOverrides();
+      const real = players.filter(p => p.name !== 'HOLD');
+      document.getElementById('statusBar').textContent =
+        `${real.length} players · refreshed ${new Date().toLocaleTimeString()}`;
+      render();
+    } catch (e) {
+      document.getElementById('statusBar').textContent = 'Could not load CSV — run: npx serve .';
+    }
+  }
+
+  function startPolling(ms = 10000) {
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(loadCSV, ms);
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const rows = [];
+    for (let i = 1; i < lines.length; i++) {
+      const cols = lines[i].split(',');
+      if (cols.length < 4) continue;
+      const name = cols[0].trim();
+      const company = cols.slice(1, cols.length - 2).join(',').trim();
+      const votes = parseInt(cols[cols.length - 2].trim()) || 0;
+      csvBaselines[name] = votes;
+      rows.push({ name, company, votes });
+    }
+    return rows;
+  }
+
+  function applyOverrides() {
+    // Merge CSV players + custom players (avoid duplicates)
+    const csvNames = new Set(players.map(p => p.name));
+    const merged = [...players];
+    for (const cp of customPlayers) {
+      if (!csvNames.has(cp.name)) merged.push({ name: cp.name, company: cp.company, votes: 0 });
+    }
+    players = merged.map(p => ({
+      ...p,
+      votes: overrides[p.name] !== undefined ? overrides[p.name] : p.votes
+    }));
+    // Recalculate percentages
+    const total = players.reduce((s, p) => s + p.votes, 0);
+    players = players.map(p => ({ ...p, pct: total > 0 ? (p.votes / total * 100) : 0 }));
+  }
+
+  // ── MODAL ──
+  function openModal(player) {
+    activePlayer = player;
+    document.getElementById('modalName').textContent = player.name;
+    document.getElementById('modalCompany').textContent = player.company;
+    document.getElementById('modalTotal').textContent = player.votes;
+    document.getElementById('inputVotes').value = '';
+    document.getElementById('inputCaster').value = '';
+    renderModalHistory();
+    updateEliminateBtn();
+    document.getElementById('modalOverlay').classList.add('open');
+    setTimeout(() => document.getElementById('inputVotes').focus(), 50);
+  }
+
+  function renderModalHistory() {
+    if (!activePlayer) return;
+    const entries = voteLog.filter(e => e.playerName === activePlayer.name);
+    const el = document.getElementById('modalHistory');
+    if (!entries.length) {
+      el.innerHTML = '<div class="history-empty">No votes yet.</div>';
+      return;
+    }
+    el.innerHTML = entries.map(e => {
+      const d = new Date(e.ts);
+      const time = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return `
+        <div class="history-entry">
+          <div class="history-left">
+            <div class="history-caster">${e.caster}</div>
+            <div class="history-time">${time}</div>
+          </div>
+          <div class="history-right">
+            <div class="history-delta">+${e.delta}</div>
+            <button class="remove-btn" data-remove-id="${e.id}" data-from-modal="true">remove</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function closeModal(e) {
+    if (e && e.target !== document.getElementById('modalOverlay')) return;
+    document.getElementById('modalOverlay').classList.remove('open');
+    activePlayer = null;
+  }
+
+  function submitVote() {
+    const delta = parseInt(document.getElementById('inputVotes').value);
+    const caster = document.getElementById('inputCaster').value.trim();
+    if (isNaN(delta) || delta <= 0) { document.getElementById('inputVotes').focus(); return; }
+    if (!caster) { document.getElementById('inputCaster').focus(); return; }
+
+    const newTotal = activePlayer.votes + delta;
+    overrides[activePlayer.name] = newTotal;
+    localStorage.setItem('voteOverrides', JSON.stringify(overrides));
+
+    const entry = {
+      id: Date.now() + '-' + Math.random().toString(36).slice(2),
+      ts: new Date().toISOString(),
+      playerName: activePlayer.name,
+      company: activePlayer.company,
+      delta,
+      newTotal,
+      caster
+    };
+    voteLog.unshift(entry);
+    localStorage.setItem('voteLog', JSON.stringify(voteLog));
+
+    applyOverrides();
+    // update active player reference so modal history refreshes correctly
+    activePlayer = players.find(p => p.name === activePlayer.name) || activePlayer;
+    document.getElementById('modalTotal').textContent = activePlayer.votes;
+    document.getElementById('inputVotes').value = '';
+    document.getElementById('inputCaster').value = '';
+    renderModalHistory();
+
+    render();
+    if (document.getElementById('page-analytics').classList.contains('active')) renderLog();
+  }
+
+  function removeLogEntry(id, fromModal = false) {
+    const entry = voteLog.find(e => e.id === id);
+    if (!entry) return;
+    voteLog = voteLog.filter(e => e.id !== id);
+
+    // Recalculate override from baseline + remaining deltas for this player
+    const base = csvBaselines[entry.playerName] ?? 0;
+    const remaining = voteLog.filter(e => e.playerName === entry.playerName);
+    const newTotal = base + remaining.reduce((s, e) => s + e.delta, 0);
+    if (newTotal === base && !remaining.length) {
+      delete overrides[entry.playerName];
+    } else {
+      overrides[entry.playerName] = newTotal;
+    }
+
+    localStorage.setItem('voteLog', JSON.stringify(voteLog));
+    localStorage.setItem('voteOverrides', JSON.stringify(overrides));
+
+    applyOverrides();
+    render();
+
+    if (fromModal && activePlayer && activePlayer.name === entry.playerName) {
+      activePlayer = players.find(p => p.name === activePlayer.name) || activePlayer;
+      document.getElementById('modalTotal').textContent = activePlayer.votes;
+      renderModalHistory();
+    }
+    if (document.getElementById('page-analytics').classList.contains('active')) renderLog();
+  }
+
+  // Delegated remove handler — closeModal already guards via e.target check, no stopPropagation needed
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-remove-id]');
+    if (!btn) return;
+    const id = btn.dataset.removeId;
+    const fromModal = btn.dataset.fromModal === 'true';
+    removeLogEntry(id, fromModal);
+  });
+
+  // Close modal on Escape / submit on Enter
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('addPlayerOverlay').classList.remove('open');
+    }
+    if (e.key === 'Enter' && document.getElementById('modalOverlay').classList.contains('open')) submitVote();
+    if (e.key === 'Enter' && document.getElementById('addPlayerOverlay').classList.contains('open')) submitAddPlayer();
+  });
+
+  // ── SORT ──
+  function sortBy(key) {
+    if (sortKey === key) sortDir *= -1;
+    else { sortKey = key; sortDir = -1; }
+    updateSortHeaders();
+    renderTable();
+  }
+
+  function updateSortHeaders() {
+    const arrow = sortDir === -1 ? ' ↓' : ' ↑';
+    ['name', 'votes', 'pct'].forEach(k => {
+      const th = document.getElementById('th-' + k);
+      if (!th) return;
+      th.classList.toggle('sorted', k === sortKey);
+      th.innerHTML = { name: 'Player', votes: 'Votes', pct: '%' }[k] +
+        (k === sortKey ? `<i class="sort-arrow">${arrow}</i>` : '');
+    });
+  }
+
+  // ── RENDER ──
+  function renderStats() {
+    const real = players.filter(p => p.name !== 'HOLD');
+    const active = real.filter(p => !eliminated.has(p.name));
+    const totalVotes = real.reduce((s, p) => s + p.votes, 0);
+    const leading = active.reduce((a, b) => b.votes > a.votes ? b : a, active[0] || {});
+    const withVotes = active.filter(p => p.votes > 0).length;
+    const elimCount = eliminated.size;
+
+    document.getElementById('statsBar').innerHTML = `
+      <div class="stat">
+        <div class="stat-label">Players</div>
+        <div class="stat-value">${real.length}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Remaining</div>
+        <div class="stat-value">${real.length - elimCount}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Eliminated</div>
+        <div class="stat-value" style="${elimCount > 0 ? 'color:#8b0000' : ''}">${elimCount}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Total Votes</div>
+        <div class="stat-value">${totalVotes}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Leader</div>
+        <div class="stat-value" style="font-size:1.6rem;letter-spacing:-.04em">${leading && leading.votes > 0 ? leading.name.split(' ')[0] : '—'}</div>
+      </div>`;
+  }
+
+  function renderTable() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const real = players.filter(p => p.name !== 'HOLD');
+
+    const sorted = [...real].sort((a, b) => {
+      if (sortKey === 'votes') return sortDir * (b.votes - a.votes);
+      if (sortKey === 'pct') return sortDir * (b.pct - a.pct);
+      if (sortKey === 'name') return sortDir * a.name.localeCompare(b.name);
+      return 0;
+    });
+
+    const maxVotes = sorted[0]?.votes || 1;
+    let rank = 0, lastVotes = -1;
+
+    const filtered = sorted.filter(p => {
+      if (!showEliminated && eliminated.has(p.name)) return false;
+      return !q || p.name.toLowerCase().includes(q) || p.company.toLowerCase().includes(q);
+    });
+
+    const tbody = document.getElementById('tableBody');
+    if (!filtered.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:24px 40px;font-family:var(--meta-font);color:var(--muted)">No results.</td></tr>`;
+      return;
+    }
+
+    let activeRank = 0, lastActiveVotes = -1;
+    tbody.innerHTML = filtered.map((p, i) => {
+      const isElim = eliminated.has(p.name);
+      if (!isElim && p.votes !== lastActiveVotes) { activeRank++; lastActiveVotes = p.votes; }
+      const barWidth = maxVotes > 0 ? (p.votes / maxVotes * 100).toFixed(1) : 0;
+      const rankDisplay = isElim ? '<span style="color:#8b0000;font-family:var(--meta-font);font-size:.7rem">OUT</span>' :
+        (p.votes > 0 ? activeRank : '—');
+      return `
+        <tr class="${isElim ? 'row-eliminated' : ''}" onclick="openModal(${JSON.stringify(p).split('"').join('&quot;')})">
+          <td class="rank ${!isElim && activeRank === 1 && p.votes > 0 ? 'top1' : ''}">${rankDisplay}</td>
+          <td>
+            <div class="player-name">${p.name}${isElim ? '<span class="out-badge">OUT</span>' : ''}</div>
+            <div class="company">${p.company}</div>
+          </td>
+          <td class="votes">${p.votes}</td>
+          <td class="pct">${(p.pct || 0).toFixed(1)}%</td>
+          <td class="bar-wrap">
+            <div class="bar-bg"><div class="bar-fill" style="width:${barWidth}%"></div></div>
+          </td>
+        </tr>`;
+    }).join('');
+  }
+
+  function renderLog() {
+    const el = document.getElementById('voteLog');
+    if (!voteLog.length) {
+      el.innerHTML = '<div class="empty-log">No votes logged yet.</div>';
+      return;
+    }
+    el.innerHTML = voteLog.map(entry => {
+      const d = new Date(entry.ts);
+      const time = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return `
+        <div class="log-entry">
+          <div class="log-left">
+            <div class="log-player">${entry.playerName}</div>
+            <div class="log-caster">voted by ${entry.caster} &rarr; total: ${entry.newTotal}</div>
+          </div>
+          <div class="log-actions">
+            <div class="log-delta pos">+${entry.delta}</div>
+            <div class="log-time">${time}</div>
+            <button class="remove-btn" data-remove-id="${entry.id}">remove</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderCharts() {
+    const real = players.filter(p => p.name !== 'HOLD' && p.votes > 0);
+    const top = [...real].sort((a, b) => b.votes - a.votes).slice(0, 10);
+
+    const barCanvas = document.getElementById('barChart');
+    const noBar = document.getElementById('noDataBar');
+    if (!real.length) {
+      noBar.style.display = 'block'; barCanvas.style.display = 'none';
+      if (barChart) { barChart.destroy(); barChart = null; }
+    } else {
+      noBar.style.display = 'none'; barCanvas.style.display = 'block';
+      if (barChart) barChart.destroy();
+      barChart = new Chart(barCanvas, {
+        type: 'bar',
+        data: {
+          labels: top.map(p => p.name.split(' ')[0]),
+          datasets: [{
+            data: top.map(p => p.votes),
+            backgroundColor: top.map((p, i) => eliminated.has(p.name) ? 'hsla(0,70%,80%,1)' : (i === 0 ? 'hsla(0,0%,0%,1)' : 'hsla(0,0%,0%,.15)')),
+            borderRadius: 0,
+            borderSkipped: false,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#000',
+              titleFont: { family: '"IBM Plex Mono"', size: 12 },
+              bodyFont: { family: '"Ubuntu Mono"', size: 12 },
+              callbacks: { label: ctx => ` ${ctx.raw} votes` }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: 'hsla(0,0%,0%,.45)', font: { family: '"Ubuntu Mono"', size: 11 } },
+              grid: { display: false },
+              border: { color: 'hsla(0,0%,0%,1)' }
+            },
+            y: {
+              ticks: { color: 'hsla(0,0%,0%,.45)', font: { family: '"Ubuntu Mono"', size: 11 }, stepSize: 1 },
+              grid: { color: 'hsla(0,0%,0%,.08)' },
+              border: { color: 'hsla(0,0%,0%,1)' }
+            }
+          }
+        }
+      });
+    }
+
+    const pieCanvas = document.getElementById('pieChart');
+    const noPie = document.getElementById('noDataPie');
+    if (!real.length) {
+      noPie.style.display = 'block'; pieCanvas.style.display = 'none';
+      if (pieChart) { pieChart.destroy(); pieChart = null; }
+    } else {
+      noPie.style.display = 'none'; pieCanvas.style.display = 'block';
+      if (pieChart) pieChart.destroy();
+      const shades = top.map((p, i) => eliminated.has(p.name) ? 'hsla(0,70%,80%,1)' : `hsla(0,0%,${Math.round(10 + i * 8)}%,1)`);
+      pieChart = new Chart(pieCanvas, {
+        type: 'doughnut',
+        data: {
+          labels: top.map(p => p.name.split(' ')[0]),
+          datasets: [{
+            data: top.map(p => p.votes),
+            backgroundColor: shades,
+            borderColor: 'hsla(46.15,26.53%,90.39%,1)',
+            borderWidth: 2,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: { font: { family: '"Ubuntu Mono"', size: 11 }, color: 'hsla(0,0%,0%,.75)', padding: 16 }
+            },
+            tooltip: {
+              backgroundColor: '#000',
+              titleFont: { family: '"IBM Plex Mono"', size: 12 },
+              bodyFont: { family: '"Ubuntu Mono"', size: 12 },
+              callbacks: { label: ctx => ` ${ctx.raw} votes` }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  function render() {
+    renderStats();
+    renderTable();
+    if (document.getElementById('page-analytics').classList.contains('active')) {
+      renderCharts();
+      renderLog();
+    }
+  }
+
+  function seedTestData() {
+    const seeds = [
+      { player: 'Ben Zises',       company: 'SuperAngel.Fund',         votes: 14, caster: 'Jordan Tepper' },
+      { player: 'Ben Zises',       company: 'SuperAngel.Fund',         votes: 6,  caster: 'Jacqueline Sun' },
+      { player: 'Jack Power',      company: 'Glimpse',                 votes: 11, caster: 'Lisa Li' },
+      { player: 'Jack Power',      company: 'Glimpse',                 votes: 4,  caster: 'Brett Alper' },
+      { player: 'Emily Reeves',    company: 'Bridge',                  votes: 9,  caster: 'Andrew Watman' },
+      { player: 'David Peikon',    company: 'Brodo',                   votes: 8,  caster: 'Jon Harary' },
+      { player: 'David Peikon',    company: 'Brodo',                   votes: 3,  caster: 'Ryan Schwartz' },
+      { player: 'Nishal Kumar',    company: 'No Days Wasted',          votes: 7,  caster: 'Alex Comisar' },
+      { player: 'Jesse Konig',     company: "Jesse & Ben's",           votes: 7,  caster: 'Mike Chiasson' },
+      { player: 'Morgan Oliveira', company: 'Aegis Capital',           votes: 6,  caster: 'Bill Connors' },
+      { player: 'George Moulton', company: 'Fun Guy',                  votes: 5,  caster: 'Andrea Popova' },
+      { player: 'Kelley Arena',    company: 'Golden Hour Ventures',    votes: 5,  caster: 'Justin Burke' },
+      { player: 'Adam Terry',      company: 'Cantrip',                 votes: 3,  caster: 'Marc Brown' },
+      { player: 'Bill Donahue',    company: 'Highmont Ventures',       votes: 2,  caster: 'Allen Duoji' },
+    ];
+
+    const baseTs = Date.now() - seeds.length * 90000;
+    seeds.forEach((s, i) => {
+      const playerName = s.player;
+      const existing = overrides[playerName] ?? (csvBaselines[playerName] || 0);
+      const newTotal = existing + s.votes;
+      overrides[playerName] = newTotal;
+      voteLog.push({
+        id: 'seed-' + i + '-' + Math.random().toString(36).slice(2),
+        ts: new Date(baseTs + i * 90000).toISOString(),
+        playerName,
+        company: s.company,
+        delta: s.votes,
+        newTotal,
+        caster: s.caster
+      });
+    });
+
+    localStorage.setItem('voteOverrides', JSON.stringify(overrides));
+    localStorage.setItem('voteLog', JSON.stringify(voteLog));
+    applyOverrides();
+    render();
+    if (document.getElementById('page-analytics').classList.contains('active')) { renderCharts(); renderLog(); }
+  }
+
+  function clearTestData() {
+    voteLog = voteLog.filter(e => !e.id.startsWith('seed-'));
+    // Recompute overrides from remaining log
+    overrides = {};
+    voteLog.forEach(e => {
+      const base = csvBaselines[e.playerName] ?? 0;
+      const remaining = voteLog.filter(l => l.playerName === e.playerName);
+      overrides[e.playerName] = base + remaining.reduce((s, l) => s + l.delta, 0);
+    });
+    localStorage.setItem('voteOverrides', JSON.stringify(overrides));
+    localStorage.setItem('voteLog', JSON.stringify(voteLog));
+    applyOverrides();
+    render();
+    if (document.getElementById('page-analytics').classList.contains('active')) { renderCharts(); renderLog(); }
+  }
+
+  updateSortHeaders();
+  loadCSV();
+  startPolling(10000);
+</script>
+</body>
+</html>

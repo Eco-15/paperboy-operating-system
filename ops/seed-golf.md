@@ -1,0 +1,3 @@
+# Seeding the Golf Party demo data
+
+Bring up the Cloud SQL Auth Proxy and make sure `DATABASE_URL` in `.env.local` points through it (`cloud-sql-proxy <INSTANCE_CONNECTION_NAME> --port 5432`, same as any other prod DB session), apply the new event tables with `npm run db:migrate` (the migration is `drizzle/0021_keen_zarda.sql` — five new `event*` tables, nothing else touched), then run `npx tsx lib/db/seed-golf.ts`. The seed is idempotent — it checks for the `golf-party` slug and exits without writing if it already exists — so re-running is safe. Afterwards the OS console is at `/events` (tile "05a · Events" on the dashboard) and the public RSVP page is live at `/events/golf-party`.

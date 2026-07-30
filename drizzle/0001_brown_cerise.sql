@@ -1,0 +1,1 @@
+ALTER TABLE "poker_vote" ADD COLUMN "is_test" boolean DEFAULT false NOT NULL;

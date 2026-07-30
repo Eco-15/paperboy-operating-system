@@ -1,0 +1,31 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next
+/out
+
+# production
+/build
+
+# typescript
+next-env.d.ts
+*.tsbuildinfo
+
+# env
+.env
+.env*.local
+
+# Catch every env variant, including .bak/.old/timestamped copies.
+# (.env.local.bak.<ts> is NOT matched by the two patterns above.)
+.env*
+!.env.example
+
+# Local Netlify folder
+.netlify
+
+# misc
+.DS_Store
+
+# cached exports of the brand-application sheets — real founder names/emails
+/.sheet-cache

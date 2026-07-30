@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paperboy Ventures — Applications</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif;
+      background: #0c0c0c;
+      color: #d4d4d4;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 28px 36px 20px;
+      border-bottom: 1px solid #1e1e1e;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    header h1 { font-size: 17px; font-weight: 600; color: #f0f0f0; letter-spacing: -0.2px; }
+    header span { font-size: 12px; color: #555; }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      padding: 14px 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #161616;
+      background: #0e0e0e;
+    }
+    .search-wrap {
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #444;
+      pointer-events: none;
+    }
+    input[type="search"] {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      color: #d4d4d4;
+      padding: 7px 12px 7px 32px;
+      border-radius: 6px;
+      font-size: 13px;
+      width: 260px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type="search"]:focus { border-color: #3a3a3a; }
+    input[type="search"]::placeholder { color: #444; }
+
+    .btn {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      color: #888;
+      padding: 7px 13px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: border-color .15s, color .15s;
+    }
+    .btn:hover { border-color: #3a3a3a; color: #bbb; }
+
+    .count { font-size: 12px; color: #444; margin-left: auto; }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead th {
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #444;
+      padding: 10px 20px;
+      text-align: left;
+      border-bottom: 1px solid #1a1a1a;
+      white-space: nowrap;
+    }
+    thead th:first-child { padding-left: 36px; }
+    thead th:last-child  { padding-right: 36px; width: 120px; }
+
+    tbody tr { transition: background .1s; }
+    tbody tr:hover td { background: #111; }
+
+    td {
+      padding: 14px 20px;
+      font-size: 13px;
+      border-bottom: 1px solid #141414;
+      vertical-align: middle;
+    }
+    td:first-child { padding-left: 36px; }
+    td:last-child  { padding-right: 36px; white-space: nowrap; }
+
+    .company-name { font-weight: 500; color: #efefef; }
+    .company-url  { font-size: 11px; color: #444; margin-top: 2px; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .badge-done    { background: #0d2018; color: #4ade80; }
+    .badge-pending { background: #1e1a00; color: #facc15; }
+
+    /* ── Action buttons/links ── */
+    .btn-gen {
+      background: #141f14;
+      border: 1px solid #243524;
+      color: #4ade80;
+      padding: 5px 13px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-gen:hover   { background: #1a2a1a; }
+    .btn-gen:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .link-pdf {
+      color: #60a5fa;
+      font-size: 12px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .link-pdf:hover { text-decoration: underline; }
+
+    /* ── Progress panel ── */
+    #progress {
+      margin: 18px 36px;
+      background: #090909;
+      border: 1px solid #1e1e1e;
+      border-radius: 8px;
+      display: none;
+      overflow: hidden;
+    }
+    .prog-header {
+      padding: 11px 16px;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .prog-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .prog-close {
+      background: none;
+      border: none;
+      color: #444;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .prog-close:hover { color: #888; }
+
+    #log {
+      padding: 14px 18px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11.5px;
+      line-height: 1.85;
+      color: #555;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .log-ok      { color: #555; }
+    .log-success { color: #4ade80; }
+    .log-error   { color: #f87171; }
+
+    /* ── Spinner ── */
+    .spinner {
+      width: 10px; height: 10px;
+      border: 1.5px solid #333;
+      border-top-color: #4ade80;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Empty / loading states ── */
+    .state-msg {
+      text-align: center;
+      padding: 70px 36px;
+      color: #3a3a3a;
+      font-size: 13px;
+    }
+    .state-msg p { margin-top: 6px; font-size: 11px; }
+
+    /* ── Live indicator ── */
+    .live-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.25; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Paperboy Ventures</h1>
+  <span>Investment Applications</span>
+  <span class="live-dot" title="Live — connected to Airtable"></span>
+</header>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="search" id="search" placeholder="Search companies, contacts…" oninput="filterTable()">
+  </div>
+  <button class="btn" onclick="loadRecords()">
+    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+      <path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/>
+    </svg>
+    Refresh
+  </button>
+  <span class="count" id="count"></span>
+</div>
+
+<div id="progress">
+  <div class="prog-header">
+    <div class="prog-title" id="prog-title">
+      <span class="spinner" id="prog-spinner"></span>
+      <span id="prog-label">Generating one-pager…</span>
+    </div>
+    <button class="prog-close" onclick="closeProgress()" title="Close">×</button>
+  </div>
+  <div id="log"></div>
+</div>
+
+<div id="table-wrap">
+  <div class="state-msg">Loading applications…</div>
+</div>
+
+<script>
+  let allRecords = [];
+  let activeES = null;
+
+  // ── Load records ──────────────────────────────────────────────────────────
+
+  async function loadRecords() {
+    document.getElementById('count').textContent = '';
+    try {
+      const res = await fetch('/api/records');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      allRecords = data.records || [];
+      filterTable();
+    } catch (e) {
+      document.getElementById('table-wrap').innerHTML =
+        `<div class="state-msg">Failed to load records.<p>${escHtml(e.message)}</p></div>`;
+    }
+  }
+
+  // ── Render table ──────────────────────────────────────────────────────────
+
+  function renderTable(records) {
+    const wrap = document.getElementById('table-wrap');
+
+    if (!records.length) {
+      wrap.innerHTML = '<div class="state-msg">No applications found.</div>';
+      return;
+    }
+
+    const rows = records.map(r => {
+      const contact = [r.first_name, r.last_name].filter(Boolean).join(' ') || '—';
+      const website = r.website
+        ? `<div class="company-url">${escHtml(r.website)}</div>` : '';
+      const status = r.one_pager_url
+        ? `<span class="badge badge-done">● Done</span>`
+        : `<span class="badge badge-pending">○ Pending</span>`;
+      const action = r.one_pager_url
+        ? `<a class="link-pdf" href="${escHtml(r.one_pager_url)}" target="_blank" rel="noopener">
+             <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+               <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+             </svg>
+             View PDF
+           </a>`
+        : `<button class="btn-gen" onclick="generate('${escHtml(r.id)}', '${escHtml(r.company)}')">Generate</button>`;
+
+      return `
+        <tr data-id="${escHtml(r.id)}">
+          <td><div class="company-name">${escHtml(r.company || '—')}</div>${website}</td>
+          <td>${escHtml(contact)}</td>
+          <td>${escHtml(r.email || '—')}</td>
+          <td>${status}</td>
+          <td>${action}</td>
+        </tr>`;
+    }).join('');
+
+    wrap.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Contact</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }
+
+  // ── Filter ────────────────────────────────────────────────────────────────
+
+  function filterTable() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const filtered = allRecords.filter(r => {
+      const contact = `${r.first_name} ${r.last_name}`.toLowerCase();
+      return (
+        (r.company || '').toLowerCase().includes(q) ||
+        contact.includes(q) ||
+        (r.email || '').toLowerCase().includes(q)
+      );
+    });
+    document.getElementById('count').textContent =
+      q ? `${filtered.length} of ${allRecords.length}` : `${allRecords.length} records`;
+    renderTable(filtered);
+  }
+
+  // ── Generate pipeline ─────────────────────────────────────────────────────
+
+  function generate(recordId, company) {
+    const btn = document.querySelector(`tr[data-id="${CSS.escape(recordId)}"] .btn-gen`);
+    if (btn) btn.disabled = true;
+
+    const prog    = document.getElementById('progress');
+    const log     = document.getElementById('log');
+    const label   = document.getElementById('prog-label');
+    const spinner = document.getElementById('prog-spinner');
+
+    prog.style.display = 'block';
+    log.innerHTML = '';
+    label.textContent = `Generating one-pager for ${company}…`;
+    spinner.style.display = 'inline-block';
+    prog.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    if (activeES) activeES.close();
+    activeES = new EventSource(`/api/generate/${encodeURIComponent(recordId)}`);
+
+    activeES.onmessage = (e) => {
+      const msg = e.data;
+
+      if (msg === 'DONE_SUCCESS') {
+        spinner.style.display = 'none';
+        label.textContent = `✓ Done — ${company}`;
+        activeES.close();
+        loadRecords();
+        return;
+      }
+      if (msg === 'DONE_ERROR') {
+        spinner.style.display = 'none';
+        label.textContent = `✗ Failed — ${company}`;
+        activeES.close();
+        if (btn) btn.disabled = false;
+        return;
+      }
+
+      const div = document.createElement('div');
+      div.className = msg.startsWith('ERROR')
+        ? 'log-error'
+        : msg.includes('Done!') ? 'log-success' : 'log-ok';
+      div.textContent = msg;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    };
+
+    activeES.onerror = () => {
+      const div = document.createElement('div');
+      div.className = 'log-error';
+      div.textContent = 'Connection lost.';
+      log.appendChild(div);
+      activeES.close();
+      spinner.style.display = 'none';
+      if (btn) btn.disabled = false;
+    };
+  }
+
+  function closeProgress() {
+    document.getElementById('progress').style.display = 'none';
+    if (activeES) { activeES.close(); activeES = null; }
+  }
+
+  // ── Live push (webhook-triggered refresh) ────────────────────────────────
+
+  function connectEvents() {
+    const es = new EventSource('/api/events');
+    es.onmessage = (e) => {
+      if (e.data === 'refresh') loadRecords();
+    };
+    es.onerror = () => {
+      es.close();
+      // Reconnect after 5 s
+      setTimeout(connectEvents, 5000);
+    };
+  }
+
+  // ── Utilities ─────────────────────────────────────────────────────────────
+
+  function escHtml(str) {
+    return (str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+
+  loadRecords();
+  connectEvents();
+</script>
+</body>
+</html>
