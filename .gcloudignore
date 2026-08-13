@@ -12,3 +12,9 @@ docs
 .DS_Store
 paperboy-os-home.png
 dashboard.html
+
+# Cached sheet exports — real founder names, emails and pitches. The app fetches
+# from Drive at runtime and never reads these, so there is no reason to bake PII
+# into the image. (.gcloudignore replaces .gitignore entirely, so this must be
+# listed here even though .gitignore already has it.)
+.sheet-cache

@@ -40,6 +40,14 @@ export interface SyncResult {
   skipped: number;
   /** Rows matched on domain rather than name — duplicates that were avoided. */
   matchedByHost: number;
+  /**
+   * Companies newly inserted by this run, in sheet order. The push notifier
+   * names them, so an alert reads "Fernbrook Kitchen, Nine Bar" rather than
+   * "2 new applications".
+   */
+  insertedCompanies: string[];
+  /** Ids of those rows, for deep-linking straight into a deal. */
+  insertedIds: string[];
 }
 
 export const EMPTY_SYNC: SyncResult = {
@@ -48,6 +56,8 @@ export const EMPTY_SYNC: SyncResult = {
   unchanged: 0,
   skipped: 0,
   matchedByHost: 0,
+  insertedCompanies: [],
+  insertedIds: [],
 };
 
 async function fetchSheetCsv(fileId: string): Promise<string> {
@@ -102,21 +112,41 @@ export async function syncBrandAppsFromSheet(): Promise<SyncResult> {
     if (host && !byHost.has(host)) byHost.set(host, entry);
   }
 
-  // Last row wins for a company that appears more than once: 24 companies re-applied
-  // within szn4 and were scored differently each time, and the newest submission is
-  // the current truth. (The one-shot backfill keeps the FIRST occurrence instead —
-  // correct there, because it is reconciling history rather than tracking a live feed.)
-  const latest = new Map<string, SheetRow>();
-  for (const row of rows) latest.set(norm(row.company), row);
-
-  const result: SyncResult = { ...EMPTY_SYNC, skipped: skipped.length };
-
-  for (const row of latest.values()) {
+  // Resolve every row to the deal it targets, THEN keep only the last row per target.
+  //
+  // Last-wins because a company that re-applies is telling us something newer: 24
+  // companies applied more than once within szn4 and were scored differently each time.
+  //
+  // Keying on the RESOLVED TARGET rather than the company name is what makes the sync
+  // converge. Two rows can carry different names and still be the same deal — "Bella
+  // Bread Co." and "Bella Bread Company" resolve to one record through the domain
+  // index. Deduping by name leaves both alive, each overwriting the other's priority
+  // on every pull, so the sync would rewrite those rows every 60 seconds forever.
+  type Plan = { row: SheetRow; match?: Entry; host: string | null; viaHost: boolean };
+  const planned = new Map<string, Plan>();
+  for (const row of rows) {
     const key = norm(row.company);
     const host = identityHost(row.website, row.contactEmail);
     const nameHit = byName.get(key);
     const match = nameHit ?? (host ? byHost.get(host) : undefined);
-    if (match && !nameHit) result.matchedByHost++;
+    // Existing deal → key by its id. New company → key by domain, else by name, so
+    // two spellings of the same unknown brand still collapse into one insert.
+    const target = match ? `id:${match.id}` : host ?? `name:${key}`;
+    planned.set(target, { row, match, host, viaHost: Boolean(match && !nameHit) });
+  }
+
+  // Fresh arrays, NOT the ones on EMPTY_SYNC — a spread copies those by
+  // reference, so pushing into them would accumulate across every sync call.
+  const result: SyncResult = {
+    ...EMPTY_SYNC,
+    skipped: skipped.length,
+    insertedCompanies: [],
+    insertedIds: [],
+  };
+
+  for (const { row, match, host, viaHost } of planned.values()) {
+    const key = norm(row.company);
+    if (viaHost) result.matchedByHost++;
 
     if (match) {
       const patch = diffPatch(row, match.row);
@@ -161,6 +191,8 @@ export async function syncBrandAppsFromSheet(): Promise<SyncResult> {
       const entry: Entry = { id: inserted.id, row: inserted };
       byName.set(key, entry);
       if (host && !byHost.has(host)) byHost.set(host, entry);
+      result.insertedCompanies.push(inserted.company);
+      result.insertedIds.push(inserted.id);
     }
     result.inserted++;
   }

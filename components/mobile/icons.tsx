@@ -154,3 +154,12 @@ export function SortIcon(props: SVGProps<SVGSVGElement> & { size?: number }) {
     </Svg>
   );
 }
+
+export function BellIcon(props: SVGProps<SVGSVGElement> & { size?: number }) {
+  return (
+    <Svg size={19} {...props}>
+      <path d="M18 8.5a6 6 0 1 0-12 0c0 5-2 6.5-2 6.5h16s-2-1.5-2-6.5" />
+      <path d="M10.3 19a2 2 0 0 0 3.4 0" />
+    </Svg>
+  );
+}

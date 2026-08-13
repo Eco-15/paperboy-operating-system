@@ -162,6 +162,13 @@
       "when": 1785426739615,
       "tag": "0022_spicy_centennial",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1785441577909,
+      "tag": "0023_fair_bastion",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./env";
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { eq } from "drizzle-orm";
@@ -132,6 +132,29 @@ async function main() {
     t.read = parsed.rows.length;
     t.skipped = parsed.skipped.length;
 
+    // Collapse repeat applications within a sheet, keeping the LAST — 24 companies
+    // applied more than once in szn4 and were scored differently each time.
+    //
+    // Without this the run is not idempotent under --force: the first occurrence
+    // matches, each later duplicate is seen as a conflict and patches the DB forward,
+    // and on the next run the first row disagrees again and patches it back. The
+    // priorities oscillate between runs forever. Keeping the last occurrence also
+    // matches lib/crm/sheet-sync.ts, so the backfill and the live sync agree on which
+    // submission is current.
+    // Keyed on the RESOLVED TARGET, matching lib/crm/sheet-sync.ts. Collapsing by
+    // name (or even by domain) is not enough — "Bella Bread Co." and "Bella Bread
+    // Company" are distinct strings that resolve to one deal, so both survive the
+    // collapse and then patch each other's priority back and forth on every run.
+    // Resolving first and keeping the last row per target is what converges.
+    const collapsed = new Map<string, SheetRow>();
+    for (const r of parsed.rows) {
+      const k = norm(r.company);
+      const h = identityHost(r.website, r.contactEmail);
+      const m = byName.get(k) ?? (h ? byHost.get(h) : undefined);
+      collapsed.set(m ? `id:${m.id ?? k}` : h ?? `name:${k}`, r);
+    }
+    const sheetRows = [...collapsed.values()];
+
     if (SAMPLE > 0) {
       console.log(`\n── sample: ${spec.label} ──`);
       for (const r of parsed.rows.slice(0, SAMPLE)) {
@@ -145,7 +168,7 @@ async function main() {
       console.log("");
     }
 
-    for (const row of parsed.rows) {
+    for (const row of sheetRows) {
       if (row.rawStage && !row.stage) {
         unknownStages.set(row.rawStage, (unknownStages.get(row.rawStage) ?? 0) + 1);
       }

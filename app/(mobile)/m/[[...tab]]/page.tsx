@@ -17,5 +17,14 @@ export default async function MobilePage({
   const { tab } = await params;
   if (tab?.length) redirect("/m");
 
-  return <MobileShell user={{ name: user.name ?? null, email: user.email ?? null }} />;
+  return (
+    <MobileShell
+      user={{ name: user.name ?? null, email: user.email ?? null }}
+      // Runtime read (see lib/push/send.ts) — handed to the client as a prop
+      // rather than relying on a build-time NEXT_PUBLIC_ inline.
+      vapidPublicKey={
+        process.env.VAPID_PUBLIC_KEY ?? process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? ""
+      }
+    />
+  );
 }

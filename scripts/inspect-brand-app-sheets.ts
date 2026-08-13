@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./env";
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import * as XLSX from "xlsx";

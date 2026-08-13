@@ -395,6 +395,95 @@
   cursor: pointer;
 }
 
+/* ── Notifications toggle (account sheet) ──────────────────────── */
+.pushRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% - 32px);
+  margin: 0 16px 12px;
+  min-height: 60px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--sh-1);
+  color: var(--ink);
+  font-family: var(--ui-font);
+  text-align: left;
+  cursor: pointer;
+}
+.pushRowOn {
+  border-color: var(--accent);
+  background: var(--tan);
+  color: var(--accent-ink);
+}
+.pushRow:disabled {
+  opacity: 0.6;
+}
+.pushLabel {
+  flex: 1;
+  min-width: 0;
+}
+.pushTitle {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.pushSub {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--meta-font);
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+.pushRowOn .pushSub {
+  color: var(--accent-ink);
+  opacity: 0.75;
+}
+/* A switch that only ever reflects state — the whole row is the hit target. */
+.pushSwitch {
+  flex: none;
+  width: 42px;
+  height: 25px;
+  border-radius: 999px;
+  background: var(--border-strong);
+  position: relative;
+  transition: background 0.18s var(--ease);
+}
+.pushSwitch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 19px;
+  height: 19px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--sh-1);
+  transition: transform 0.18s var(--ease);
+}
+.pushSwitchOn {
+  background: var(--accent);
+}
+.pushSwitchOn::after {
+  transform: translateX(17px);
+}
+.pushNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 16px 12px;
+  padding: 12px 14px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 14px;
+  font-family: var(--meta-font);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 /* ── Sort sheet ────────────────────────────────────────────────── */
 .sortList {
   display: flex;
@@ -456,6 +545,10 @@
 .segBtn {
   flex: 1;
   min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   border: none;
   border-radius: 9px;
   background: none;
@@ -464,6 +557,13 @@
   font-weight: 500;
   color: var(--muted);
   cursor: pointer;
+}
+.segCount {
+  font-family: var(--meta-font);
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
 }
 .segBtnActive {
   background: var(--surface);

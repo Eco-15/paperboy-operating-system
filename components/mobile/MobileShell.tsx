@@ -18,6 +18,7 @@ import CrmTab from "./CrmTab";
 import { useRemote, type CrmPayload, type LiteDeal } from "./data";
 import DealSheet, { type DealRequest } from "./DealSheet";
 import { ChevronIcon, SignOutIcon } from "./icons";
+import PushToggle from "./PushToggle";
 import Sheet from "./Sheet";
 import s from "./mobile.module.css";
 
@@ -38,8 +39,11 @@ function initials(name: string | null, email: string | null): string {
 
 export default function MobileShell({
   user,
+  vapidPublicKey,
 }: {
   user: { name: string | null; email: string | null };
+  /** Empty when push isn't configured on this server — the toggle hides. */
+  vapidPublicKey: string;
 }) {
   const [standalone, setStandalone] = useState(false);
   const [online, setOnline] = useState(true);
@@ -227,6 +231,10 @@ export default function MobileShell({
             {user.email ? <div className={s.userEmail}>{user.email}</div> : null}
           </div>
         </div>
+
+        {vapidPublicKey ? (
+          <PushToggle publicKey={vapidPublicKey} showToast={showToast} />
+        ) : null}
 
         <div className={s.tileGrid}>
           {OS_LINKS.map(({ href, label, sub }) => (

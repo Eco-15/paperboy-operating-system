@@ -661,6 +661,34 @@ export const notifications = pgTable(
   (t) => [index("notif_user_created_idx").on(t.userId, t.createdAt)],
 );
 
+// ── Web Push subscriptions (lock-screen alerts on the installed phone app) ────
+// One row per browser/device a staff member has granted notification permission
+// on — the same person can have several (phone + laptop). `endpoint` is the
+// push service URL and is globally unique, so it doubles as the natural key for
+// re-subscribing the same device.
+//
+// Subscriptions expire and get revoked constantly (permission withdrawn, app
+// deleted, service rotation). The sender treats 404/410 as "gone" and deletes
+// the row — see lib/push/send.ts. Never let a dead subscription fail a request.
+export const pushSubscriptions = pgTable(
+  "push_subscription",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    endpoint: text("endpoint").notNull().unique(),
+    p256dh: text("p256dh").notNull(), // client public key (payload encryption)
+    auth: text("auth").notNull(), // client auth secret
+    userAgent: text("user_agent"), // so a person can tell their devices apart
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    lastSentAt: timestamp("last_sent_at"),
+  },
+  (t) => [index("push_sub_user_idx").on(t.userId)],
+);
+
 // ── Artifacts ─────────────────────────────────────────────────────────────────
 // A document the user and the agent build together, side-by-side with the chat:
 // a memo, a deck, a model, an HTML one-pager. Deliberately NOT stored inside

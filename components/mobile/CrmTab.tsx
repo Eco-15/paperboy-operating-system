@@ -60,6 +60,15 @@ export default function CrmTab({
     return all.filter((d) => d.archived === (scope === "parked"));
   }, [all, scope]);
 
+  // Counts live on the scope control itself. Without them the phone opens on
+  // "Active" and silently hides the ~720 parked deals — it looks like the book
+  // is 71 deals long when it's 792.
+  const scopeCounts = useMemo(() => {
+    if (!all) return null;
+    const parked = all.filter((d) => d.archived).length;
+    return { active: all.length - parked, all: all.length, parked };
+  }, [all]);
+
   // Present stages with counts, in board order (archive statuses trail).
   const stages = useMemo(() => {
     if (!scoped) return [];
@@ -143,6 +152,7 @@ export default function CrmTab({
                   onClick={() => setScope(value)}
                 >
                   {label}
+                  {scopeCounts ? <span className={s.segCount}>{scopeCounts[value]}</span> : null}
                 </button>
               ))}
             </div>

@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./env";
 import { readFileSync } from "node:fs";
 import * as XLSX from "xlsx";
 import { eq } from "drizzle-orm";
