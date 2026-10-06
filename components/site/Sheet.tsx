@@ -27,7 +27,7 @@ export default function Sheet({
         <Link href="/login">Members&apos; Entrance</Link>
       </div>
       {isFront ? (
-        <h1 className="sheet-wordmark">{SITE_NAME}</h1>
+        <h1 className="sheet-wordmark">{SITE_NAME.toLowerCase()}</h1>
       ) : (
         <div className="sheet-wordmark">
           <Link href="/">{SITE_NAME}</Link>
